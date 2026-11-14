@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About Hisaab Kitab</title>
+<meta name="description" content="Hisaab Kitab ke baare me: free calculators, aasan bhasha me.">
+<link rel="canonical" href="https://luvknight8-lang.github.io/about/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Hisaab Kitab">
+<meta property="og:title" content="About Hisaab Kitab">
+<meta property="og:description" content="Hisaab Kitab ke baare me: free calculators, aasan bhasha me.">
+<meta property="og:url" content="https://luvknight8-lang.github.io/about/">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f766e'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='700'%3EH%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Mukta:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* layout: sidebar of grouped calculators on the left, working panel on the right; stacks on phones */
+  --bg:#f4f7f6;
+  --surface:#ffffff;
+  --ink:#10201c;
+  --muted:#5b6b66;
+  --line:#dbe5e1;
+  --accent:#0f766e;
+  --accent-soft:#d9f0ec;
+  --accent2:#1d4ed8;
+  --display:"Bricolage Grotesque","Mukta",system-ui,sans-serif;
+  --body:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0c1513;
+    --surface:#121f1c;
+    --ink:#e6f0ed;
+    --muted:#93a8a2;
+    --line:#223632;
+    --accent:#34d3c3;
+    --accent-soft:#14312d;
+    --accent2:#7aa2ff;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0c1513;
+  --surface:#121f1c;
+  --ink:#e6f0ed;
+  --muted:#93a8a2;
+  --line:#223632;
+  --accent:#34d3c3;
+  --accent-soft:#14312d;
+  --accent2:#7aa2ff;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;-webkit-text-size-adjust:100%}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+
+.top{border-bottom:1px solid var(--line);background:var(--surface)}
+.top-in{max-width:1120px;margin:0 auto;padding:18px 16px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:700;font-size:26px;letter-spacing:-.01em;margin:0}
+.brand span{color:var(--accent)}
+.tag{color:var(--muted);margin:0;font-size:16px}
+
+.wrap{max-width:1120px;margin:0 auto;padding:20px 16px 40px;display:grid;grid-template-columns:240px minmax(0,1fr);gap:24px;align-items:start}
+nav{position:sticky;top:12px;display:flex;flex-direction:column;gap:18px}
+.grp h2{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;font-weight:600}
+.grp ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.grp a{width:100%;text-align:left;background:none;border:0;border-radius:8px;padding:8px 10px;font:inherit;font-weight:500;color:var(--ink);cursor:pointer}
+.grp a:hover{background:var(--accent-soft)}
+.grp a[aria-current="true"]{background:var(--accent);color:#fff}
+:root[data-theme="dark"] .grp a[aria-current="true"]{color:#06201c}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .grp a[aria-current="true"]{color:#06201c}}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px}
+.panel h1,.panel h2{font-family:var(--display);font-size:28px;line-height:1.15;margin:0 0 4px;text-wrap:balance}
+.panel .desc{margin:0 0 20px;color:var(--muted)}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px}
+.field{margin-bottom:18px}
+.field label{display:block;font-weight:600;margin-bottom:6px}
+.row{display:flex;align-items:center;gap:10px}
+.inp{display:flex;align-items:center;border:1px solid var(--line);border-radius:8px;background:var(--bg);padding:0 10px;min-width:140px}
+.inp:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.inp .u{color:var(--muted);font-weight:600}
+.inp input{border:0;background:none;color:var(--ink);font:inherit;font-weight:600;width:100%;padding:9px 6px;font-variant-numeric:tabular-nums;outline:none;min-width:0}
+input[type=range]{flex:1;accent-color:var(--accent);min-width:0}
+select,input[type=date]{width:100%;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit;font-weight:600;padding:9px 10px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg label{margin:0;font-weight:500;border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer;background:var(--bg)}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg input:checked + span{color:var(--accent);font-weight:700}
+.seg label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.seg label:has(input:focus-visible){outline:3px solid var(--accent);outline-offset:2px}
+
+.result{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:18px}
+.big-l{color:var(--muted);font-size:15px;margin:0}
+.big-v{font-family:var(--display);font-weight:700;font-size:40px;line-height:1.1;margin:2px 0 16px;color:var(--accent);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.bar{display:flex;height:14px;border-radius:99px;overflow:hidden;background:var(--line);margin:0 0 10px}
+.bar i{display:block;height:100%}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin:0 0 14px;font-size:15px;color:var(--muted)}
+.legend b{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
+dl{margin:0}
+.res-row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid var(--line)}
+.res-row dt{color:var(--muted)}
+.res-row dd{margin:0;font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.note{margin:14px 0 0;color:var(--muted);font-size:14.5px}
+.err{color:#b42318;font-weight:600;margin:0}
+:root[data-theme="dark"] .err{color:#ff8b7e}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .err{color:#ff8b7e}}
+
+footer{max-width:1120px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font-size:14.5px}
+footer p{margin:0 0 6px}
+
+@media (max-width:860px){
+  .wrap{grid-template-columns:minmax(0,1fr)}
+  nav{position:static;flex-direction:column;gap:14px}
+  .grp ul{flex-direction:row;flex-wrap:wrap;gap:6px}
+  .grp a{width:auto;border:1px solid var(--line);background:var(--surface);padding:7px 12px;border-radius:999px}
+  .cols{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:420px){
+  .panel{padding:16px}
+  .big-v{font-size:32px}
+  .inp{min-width:120px}
+}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+.grp a{display:block;text-decoration:none}
+.main{display:flex;flex-direction:column;gap:20px;min-width:0}
+.prose h2{font-size:22px}
+.prose h3{font-family:var(--body);font-size:18px;margin:18px 0 4px;font-weight:700}
+.prose p{margin:0 0 12px;max-width:68ch}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:18px}
+.card{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--surface)}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;font-family:var(--display);font-size:19px;color:var(--accent);margin-bottom:2px}
+.card span{color:var(--muted);font-size:15px}
+.wrap.one{grid-template-columns:minmax(0,1fr)}
+.top-in a.brand-link{text-decoration:none;color:inherit}
+footer nav{position:static;flex-direction:row;gap:14px;margin-bottom:8px}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in"><p class="brand"><a class="brand-link" href="/">Hisaab <span>Kitab</span></a></p><p class="tag">Free calculators. Paisa, loan, GST aur roz ke hisaab ke liye.</p></div></header>
+<main class="wrap one"><div class="main"><article class="panel prose"><h1>About Hisaab Kitab</h1><p>Hisaab Kitab ek free calculators ki website hai. Iska maqsad hai ki paisa, loan, GST aur roz ke hisaab se jude sawal bina kisi ulajhan ke hal ho jayein.</p>
+<p>Har calculator ek jaana-pehchana formula use karta hai, aur uska tareeka us calculator ke page par likha hota hai. Result sirf andaza hota hai. Bank, company ya sarkar ke asli niyam alag ho sakte hain, isliye koi bhi bada faisla lene se pehle apne bank, CA ya salahkar se confirm karein.</p>
+<p>Website ka kaam ek aisi jagah banana hai jahan hindi bolne wale log aasan bhasha me apna hisaab dekh sakein.</p></article></div></main>
+<footer><nav aria-label="Site"><a href="/">Home</a> <a href="/about/">About</a> <a href="/privacy/">Privacy Policy</a></nav>
+<p>Ye calculators sirf andaza lagane ke liye hain. Asli rashi bank, company ya sarkari niyam ke hisaab se alag ho sakti hai. Ye nivesh, tax ya sehat ki salah nahi hai.</p>
+<p>Aapka diya hua data sirf aapke browser me rehta hai, kahin save nahi hota.</p></footer>
+</body>
+</html>

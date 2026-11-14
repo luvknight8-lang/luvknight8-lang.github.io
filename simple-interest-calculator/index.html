@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en-IN" data-calc="simple">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simple Interest Calculator Online | Hisaab Kitab</title>
+<meta name="description" content="Free simple interest calculator. Mool rashi, dar aur samay daalkar sadharan byaj aur kul rashi nikalein.">
+<link rel="canonical" href="https://luvknight8-lang.github.io/simple-interest-calculator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Hisaab Kitab">
+<meta property="og:title" content="Simple Interest Calculator Online | Hisaab Kitab">
+<meta property="og:description" content="Free simple interest calculator. Mool rashi, dar aur samay daalkar sadharan byaj aur kul rashi nikalein.">
+<meta property="og:url" content="https://luvknight8-lang.github.io/simple-interest-calculator/">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f766e'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='700'%3EH%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Mukta:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* layout: sidebar of grouped calculators on the left, working panel on the right; stacks on phones */
+  --bg:#f4f7f6;
+  --surface:#ffffff;
+  --ink:#10201c;
+  --muted:#5b6b66;
+  --line:#dbe5e1;
+  --accent:#0f766e;
+  --accent-soft:#d9f0ec;
+  --accent2:#1d4ed8;
+  --display:"Bricolage Grotesque","Mukta",system-ui,sans-serif;
+  --body:"Mukta",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0c1513;
+    --surface:#121f1c;
+    --ink:#e6f0ed;
+    --muted:#93a8a2;
+    --line:#223632;
+    --accent:#34d3c3;
+    --accent-soft:#14312d;
+    --accent2:#7aa2ff;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0c1513;
+  --surface:#121f1c;
+  --ink:#e6f0ed;
+  --muted:#93a8a2;
+  --line:#223632;
+  --accent:#34d3c3;
+  --accent-soft:#14312d;
+  --accent2:#7aa2ff;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;-webkit-text-size-adjust:100%}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+
+.top{border-bottom:1px solid var(--line);background:var(--surface)}
+.top-in{max-width:1120px;margin:0 auto;padding:18px 16px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:700;font-size:26px;letter-spacing:-.01em;margin:0}
+.brand span{color:var(--accent)}
+.tag{color:var(--muted);margin:0;font-size:16px}
+
+.wrap{max-width:1120px;margin:0 auto;padding:20px 16px 40px;display:grid;grid-template-columns:240px minmax(0,1fr);gap:24px;align-items:start}
+nav{position:sticky;top:12px;display:flex;flex-direction:column;gap:18px}
+.grp h2{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;font-weight:600}
+.grp ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.grp a{width:100%;text-align:left;background:none;border:0;border-radius:8px;padding:8px 10px;font:inherit;font-weight:500;color:var(--ink);cursor:pointer}
+.grp a:hover{background:var(--accent-soft)}
+.grp a[aria-current="true"]{background:var(--accent);color:#fff}
+:root[data-theme="dark"] .grp a[aria-current="true"]{color:#06201c}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .grp a[aria-current="true"]{color:#06201c}}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px}
+.panel h1,.panel h2{font-family:var(--display);font-size:28px;line-height:1.15;margin:0 0 4px;text-wrap:balance}
+.panel .desc{margin:0 0 20px;color:var(--muted)}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px}
+.field{margin-bottom:18px}
+.field label{display:block;font-weight:600;margin-bottom:6px}
+.row{display:flex;align-items:center;gap:10px}
+.inp{display:flex;align-items:center;border:1px solid var(--line);border-radius:8px;background:var(--bg);padding:0 10px;min-width:140px}
+.inp:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.inp .u{color:var(--muted);font-weight:600}
+.inp input{border:0;background:none;color:var(--ink);font:inherit;font-weight:600;width:100%;padding:9px 6px;font-variant-numeric:tabular-nums;outline:none;min-width:0}
+input[type=range]{flex:1;accent-color:var(--accent);min-width:0}
+select,input[type=date]{width:100%;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit;font-weight:600;padding:9px 10px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg label{margin:0;font-weight:500;border:1px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer;background:var(--bg)}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg input:checked + span{color:var(--accent);font-weight:700}
+.seg label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.seg label:has(input:focus-visible){outline:3px solid var(--accent);outline-offset:2px}
+
+.result{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:18px}
+.big-l{color:var(--muted);font-size:15px;margin:0}
+.big-v{font-family:var(--display);font-weight:700;font-size:40px;line-height:1.1;margin:2px 0 16px;color:var(--accent);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.bar{display:flex;height:14px;border-radius:99px;overflow:hidden;background:var(--line);margin:0 0 10px}
+.bar i{display:block;height:100%}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin:0 0 14px;font-size:15px;color:var(--muted)}
+.legend b{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
+dl{margin:0}
+.res-row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid var(--line)}
+.res-row dt{color:var(--muted)}
+.res-row dd{margin:0;font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.note{margin:14px 0 0;color:var(--muted);font-size:14.5px}
+.err{color:#b42318;font-weight:600;margin:0}
+:root[data-theme="dark"] .err{color:#ff8b7e}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .err{color:#ff8b7e}}
+
+footer{max-width:1120px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font-size:14.5px}
+footer p{margin:0 0 6px}
+
+@media (max-width:860px){
+  .wrap{grid-template-columns:minmax(0,1fr)}
+  nav{position:static;flex-direction:column;gap:14px}
+  .grp ul{flex-direction:row;flex-wrap:wrap;gap:6px}
+  .grp a{width:auto;border:1px solid var(--line);background:var(--surface);padding:7px 12px;border-radius:999px}
+  .cols{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:420px){
+  .panel{padding:16px}
+  .big-v{font-size:32px}
+  .inp{min-width:120px}
+}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+.grp a{display:block;text-decoration:none}
+.main{display:flex;flex-direction:column;gap:20px;min-width:0}
+.prose h2{font-size:22px}
+.prose h3{font-family:var(--body);font-size:18px;margin:18px 0 4px;font-weight:700}
+.prose p{margin:0 0 12px;max-width:68ch}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:18px}
+.card{display:block;text-decoration:none;color:inherit;border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--surface)}
+.card:hover{border-color:var(--accent)}
+.card b{display:block;font-family:var(--display);font-size:19px;color:var(--accent);margin-bottom:2px}
+.card span{color:var(--muted);font-size:15px}
+.wrap.one{grid-template-columns:minmax(0,1fr)}
+.top-in a.brand-link{text-decoration:none;color:inherit}
+footer nav{position:static;flex-direction:row;gap:14px;margin-bottom:8px}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Simple Interest Calculator", "url": "https://luvknight8-lang.github.io/simple-interest-calculator/", "applicationCategory": "FinanceApplication", "operatingSystem": "Any", "inLanguage": "en-IN", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Simple interest kahan use hota hai?", "acceptedAnswer": {"@type": "Answer", "text": "Kai chhote loan, udhaar aur kuch tarah ke deposit me sadharan byaj ka hisaab hota hai."}}, {"@type": "Question", "name": "Kya mahine ke hisaab se bhi nikal sakte hain?", "acceptedAnswer": {"@type": "Answer", "text": "Haan. Samay ko saal me badal lein, jaise 6 mahine ka matlab 0.5 saal."}}]}</script>
+</head>
+<body>
+<header class="top"><div class="top-in"><p class="brand"><a class="brand-link" href="/">Hisaab <span>Kitab</span></a></p><p class="tag">Free calculators. Paisa, loan, GST aur roz ke hisaab ke liye.</p></div></header>
+<main class="wrap">
+<nav id="nav" aria-label="Calculators"><div class="grp"><h2>Paisa aur nivesh</h2><ul><li><a href="/sip-calculator/">SIP Calculator</a></li><li><a href="/lumpsum-calculator/">Lumpsum Calculator</a></li><li><a href="/fd-calculator/">FD Calculator</a></li><li><a href="/rd-calculator/">RD Calculator</a></li><li><a href="/compound-interest-calculator/">Compound Interest Calculator</a></li><li><a href="/simple-interest-calculator/" aria-current="true">Simple Interest Calculator</a></li><li><a href="/cagr-calculator/">CAGR Calculator</a></li></ul></div><div class="grp"><h2>Loan</h2><ul><li><a href="/emi-calculator/">EMI Calculator</a></li></ul></div><div class="grp"><h2>GST aur bill</h2><ul><li><a href="/gst-calculator/">GST Calculator</a></li><li><a href="/discount-calculator/">Discount Calculator</a></li><li><a href="/percentage-calculator/">Percentage Calculator</a></li></ul></div><div class="grp"><h2>Roz ke kaam</h2><ul><li><a href="/age-calculator/">Age Calculator</a></li><li><a href="/bmi-calculator/">BMI Calculator</a></li></ul></div></nav>
+<div class="main">
+<section class="panel"><h1>Simple Interest Calculator</h1><p class="desc">Sirf mool rashi par lagne wala sadharan byaj.</p><div id="calc"><p class="note">Calculator load ho raha hai. Agar ye dikhta rahe, to JavaScript chalu karein.</p></div></section>
+<article class="panel prose"><h2>Simple Interest Calculator kya hai</h2><p>Simple interest ya sadharan byaj sirf mool rashi par lagta hai. Ye aam taur par chhote karz ya kuch tarah ke loan me use hota hai.</p><h2>Ye kaise kaam karta hai</h2><p>Formula: SI = P x R x T / 100. P mool rashi, R saal ki dar aur T saal hai. Kul rashi = P + SI.</p><h2>Aksar pooche jaane wale sawal</h2><h3>Simple interest kahan use hota hai?</h3><p>Kai chhote loan, udhaar aur kuch tarah ke deposit me sadharan byaj ka hisaab hota hai.</p><h3>Kya mahine ke hisaab se bhi nikal sakte hain?</h3><p>Haan. Samay ko saal me badal lein, jaise 6 mahine ka matlab 0.5 saal.</p></article>
+</div>
+</main>
+<footer><nav aria-label="Site"><a href="/">Home</a> <a href="/about/">About</a> <a href="/privacy/">Privacy Policy</a></nav>
+<p>Ye calculators sirf andaza lagane ke liye hain. Asli rashi bank, company ya sarkari niyam ke hisaab se alag ho sakti hai. Ye nivesh, tax ya sehat ki salah nahi hai.</p>
+<p>Aapka diya hua data sirf aapke browser me rehta hai, kahin save nahi hota.</p></footer>
+<script>(function(){
+  var NF = new Intl.NumberFormat('en-IN',{maximumFractionDigits:0});
+  var NF2 = new Intl.NumberFormat('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+  var NFP = new Intl.NumberFormat('en-IN',{maximumFractionDigits:2});
+  function inr(v){ return '₹' + NF.format(Math.round(v)); }
+  function inr2(v){ return '₹' + NF2.format(v); }
+  function pct(v){ return NFP.format(v) + '%'; }
+
+  var YEARS = {k:'years',label:'Samay (saal)',min:1,max:40,step:1,def:10};
+  function rateField(def,max){ return {k:'rate',label:'Byaj ya return ki dar (saal ka)',unit:'%',min:1,max:max||30,step:0.1,def:def}; }
+  var FREQ = {k:'f',label:'Byaj kitni baar judta hai',type:'select',def:'4',opts:[['1','Saal me ek baar'],['2','Har 6 mahine'],['4','Har 3 mahine (quarter)'],['12','Har mahine']]};
+
+  var calcs = [
+    {id:'sip',group:'Paisa aur nivesh',name:'SIP Calculator',desc:'Har mahine ek fixed rashi lagane par kitna paisa ban sakta hai.',
+     fields:[{k:'amount',label:'Mahine ka nivesh',unit:'₹',min:500,max:200000,step:500,def:5000},rateField(12),YEARS],
+     run:function(v){
+       var i=v.rate/1200, n=v.years*12;
+       var fv = i>0 ? v.amount*((Math.pow(1+i,n)-1)/i)*(1+i) : v.amount*n;
+       var inv=v.amount*n;
+       return {head:['Kul rashi (maturity)',inr(fv)],
+         split:[['Lagaya hua paisa',inv,'a'],['Kamaya hua return',fv-inv,'b']],
+         rows:[['Lagaya hua paisa',inr(inv)],['Kamaya hua return',inr(fv-inv)],['Kul rashi',inr(fv)]],
+         note:'Maana gaya hai ki return har saal ek hi dar se milta hai. Market me asli return upar neeche hota rehta hai.'};
+     }},
+    {id:'lumpsum',group:'Paisa aur nivesh',name:'Lumpsum Calculator',desc:'Ek baar me lagaye paise ka future value.',
+     fields:[{k:'amount',label:'Ek baar ka nivesh',unit:'₹',min:1000,max:10000000,step:1000,def:100000},rateField(12),YEARS],
+     run:function(v){
+       var fv=v.amount*Math.pow(1+v.rate/100,v.years);
+       return {head:['Kul rashi (maturity)',inr(fv)],
+         split:[['Lagaya hua paisa',v.amount,'a'],['Kamaya hua return',fv-v.amount,'b']],
+         rows:[['Lagaya hua paisa',inr(v.amount)],['Kamaya hua return',inr(fv-v.amount)],['Kul rashi',inr(fv)]],
+         note:'Return har saal ek hi dar se judta hua maana gaya hai.'};
+     }},
+    {id:'fd',group:'Paisa aur nivesh',name:'FD Calculator',desc:'Fixed Deposit par maturity ki rashi.',
+     fields:[{k:'amount',label:'FD ki rashi',unit:'₹',min:1000,max:10000000,step:1000,def:100000},rateField(7,15),{k:'years',label:'Samay (saal)',min:1,max:20,step:1,def:5},FREQ],
+     run:function(v){
+       var f=+v.f, fv=v.amount*Math.pow(1+v.rate/(100*f),f*v.years);
+       return {head:['Maturity ki rashi',inr(fv)],
+         split:[['Jama ki hui rashi',v.amount,'a'],['Byaj',fv-v.amount,'b']],
+         rows:[['Jama ki hui rashi',inr(v.amount)],['Kul byaj',inr(fv-v.amount)],['Maturity ki rashi',inr(fv)]],
+         note:'FD ki dar bank ke hisaab se badalti hai. Tax alag se lag sakta hai.'};
+     }},
+    {id:'rd',group:'Paisa aur nivesh',name:'RD Calculator',desc:'Recurring Deposit me har mahine jama karke kitna milega.',
+     fields:[{k:'amount',label:'Mahine ki jama rashi',unit:'₹',min:100,max:100000,step:100,def:5000},rateField(6.5,15),{k:'years',label:'Samay (saal)',min:1,max:10,step:1,def:5}],
+     run:function(v){
+       var n=v.years*12, total=0, k, m;
+       for(k=1;k<=n;k++){ m=n-k+1; total+=v.amount*Math.pow(1+v.rate/400,4*m/12); }
+       var inv=v.amount*n;
+       return {head:['Maturity ki rashi',inr(total)],
+         split:[['Jama ki hui rashi',inv,'a'],['Byaj',total-inv,'b']],
+         rows:[['Jama ki hui rashi',inr(inv)],['Kul byaj',inr(total-inv)],['Maturity ki rashi',inr(total)]],
+         note:'Byaj har 3 mahine me judta hua maana gaya hai. Bank ka asli hisaab thoda alag ho sakta hai.'};
+     }},
+    {id:'compound',group:'Paisa aur nivesh',name:'Compound Interest',desc:'Byaj par byaj lagakar rashi kitni badhegi.',
+     fields:[{k:'amount',label:'Mool rashi',unit:'₹',min:1000,max:10000000,step:1000,def:100000},rateField(8),YEARS,Object.assign({},FREQ,{def:'1'})],
+     run:function(v){
+       var f=+v.f, a=v.amount*Math.pow(1+v.rate/(100*f),f*v.years);
+       return {head:['Kul rashi',inr(a)],
+         split:[['Mool rashi',v.amount,'a'],['Byaj',a-v.amount,'b']],
+         rows:[['Mool rashi',inr(v.amount)],['Kul byaj',inr(a-v.amount)],['Kul rashi',inr(a)]]};
+     }},
+    {id:'simple',group:'Paisa aur nivesh',name:'Simple Interest',desc:'Sirf mool rashi par lagne wala sadharan byaj.',
+     fields:[{k:'amount',label:'Mool rashi',unit:'₹',min:1000,max:10000000,step:1000,def:100000},rateField(8,30),{k:'years',label:'Samay (saal)',min:1,max:30,step:1,def:3}],
+     run:function(v){
+       var i=v.amount*v.rate*v.years/100;
+       return {head:['Kul rashi',inr(v.amount+i)],
+         split:[['Mool rashi',v.amount,'a'],['Byaj',i,'b']],
+         rows:[['Mool rashi',inr(v.amount)],['Sadharan byaj',inr(i)],['Kul rashi',inr(v.amount+i)]]};
+     }},
+    {id:'cagr',group:'Paisa aur nivesh',name:'CAGR Calculator',desc:'Saalana chakravriddhi dar, yaani har saal ka average growth.',
+     fields:[{k:'start',label:'Shuru ki keemat',unit:'₹',min:1000,max:10000000,step:1000,def:100000},{k:'end',label:'Ab ki ya antim keemat',unit:'₹',min:1000,max:100000000,step:1000,def:250000},{k:'years',label:'Samay (saal)',min:1,max:40,step:1,def:5}],
+     run:function(v){
+       if(!(v.start>0)||!(v.end>0)||!(v.years>0)) return {error:'Shuru ki keemat, antim keemat aur saal teeno 0 se zyada daalein.'};
+       var c=(Math.pow(v.end/v.start,1/v.years)-1)*100;
+       return {head:['CAGR (saal ka growth)',pct(c)],
+         rows:[['Shuru ki keemat',inr(v.start)],['Antim keemat',inr(v.end)],['Kul fayda',inr(v.end-v.start)]]};
+     }},
+    {id:'emi',group:'Loan',name:'EMI Calculator',desc:'Home, car ya personal loan ki mahine ki kisht.',
+     fields:[{k:'amount',label:'Loan ki rashi',unit:'₹',min:10000,max:50000000,step:10000,def:1000000},rateField(9,20),{k:'years',label:'Loan ka samay (saal)',min:1,max:30,step:1,def:20}],
+     run:function(v){
+       var r=v.rate/1200, n=v.years*12;
+       var emi = r>0 ? v.amount*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1) : v.amount/n;
+       var total=emi*n;
+       return {head:['Mahine ki EMI',inr(emi)],
+         split:[['Mool rashi',v.amount,'a'],['Kul byaj',total-v.amount,'b']],
+         rows:[['Mool rashi',inr(v.amount)],['Kul byaj',inr(total-v.amount)],['Kul chukane wali rashi',inr(total)]],
+         note:'Processing fee aur anya charge isme shamil nahi hain.'};
+     }},
+    {id:'gst',group:'GST aur bill',name:'GST Calculator',desc:'Price me GST jodein ya GST wale price se GST alag karein.',
+     fields:[{k:'mode',label:'Kya karna hai',type:'seg',def:'add',opts:[['add','GST jodo'],['rem','GST hatao']]},
+             {k:'amount',label:'Rashi',unit:'₹',min:0,max:1000000,step:100,def:1000},
+             {k:'rate',label:'GST dar',type:'select',def:'18',opts:[['0.25','0.25%'],['3','3%'],['5','5%'],['12','12%'],['18','18%'],['28','28%'],['40','40%']]}],
+     run:function(v){
+       var r=+v.rate, base, gst, total;
+       if(v.mode==='add'){ base=v.amount; gst=base*r/100; total=base+gst; }
+       else { total=v.amount; base=total/(1+r/100); gst=total-base; }
+       return {head:[v.mode==='add'?'GST ke saath kul rashi':'GST hatane ke baad rashi', inr2(v.mode==='add'?total:base)],
+         split:[['Asli rashi',base,'a'],['GST',gst,'b']],
+         rows:[['Asli rashi (GST ke bina)',inr2(base)],['Kul GST ('+pct(r)+')',inr2(gst)],['CGST ('+pct(r/2)+')',inr2(gst/2)],['SGST ('+pct(r/2)+')',inr2(gst/2)],['GST ke saath kul rashi',inr2(total)]],
+         note:'CGST aur SGST rajya ke andar ki bikri par lagte hain. Doosre rajya me IGST poora ek saath lagta hai. Apne saman ki sahi GST dar GST portal par jaanch lein.'};
+     }},
+    {id:'discount',group:'GST aur bill',name:'Discount Calculator',desc:'Sale me chhoot ke baad asli keemat.',
+     fields:[{k:'price',label:'Asli keemat',unit:'₹',min:0,max:1000000,step:100,def:2000},{k:'d',label:'Discount',unit:'%',min:0,max:100,step:1,def:25}],
+     run:function(v){
+       var s=v.price*v.d/100;
+       return {head:['Dene wali keemat',inr2(v.price-s)],
+         split:[['Aap dete hain',v.price-s,'a'],['Aapki bachat',s,'b']],
+         rows:[['Asli keemat',inr2(v.price)],['Aapki bachat',inr2(s)],['Dene wali keemat',inr2(v.price-s)]]};
+     }},
+    {id:'percent',group:'GST aur bill',name:'Percentage Calculator',desc:'Teen tarah ke percentage ke sawal ek jagah.',
+     fields:[{k:'mode',label:'Kya nikalna hai',type:'select',def:'1',opts:[['1','A ka B% kitna hota hai'],['2','A, B ka kitna % hai'],['3','A se B tak kitna % badlav']]},
+             {k:'a',label:'Sankhya A',min:0,max:1000000,step:1,def:500},
+             {k:'b',label:'Sankhya B',min:0,max:1000000,step:1,def:20}],
+     run:function(v){
+       if(v.mode==='1'){ var x=v.a*v.b/100; return {head:[NFP.format(v.a)+' ka '+NFP.format(v.b)+'%',NFP.format(x)],rows:[]}; }
+       if(v.mode==='2'){ if(!(v.b!==0)) return {error:'B 0 nahi ho sakta.'}; return {head:[NFP.format(v.a)+', '+NFP.format(v.b)+' ka kitna %',pct(v.a/v.b*100)],rows:[]}; }
+       if(v.a===0) return {error:'A 0 nahi ho sakta.'};
+       var c=(v.b-v.a)/v.a*100;
+       return {head:[NFP.format(v.a)+' se '+NFP.format(v.b)+' tak',(c>=0?'+':'')+pct(c)],rows:[['Antar',NFP.format(v.b-v.a)]]};
+     }},
+    {id:'age',group:'Roz ke kaam',name:'Age Calculator',desc:'Janm tithi se umar saal, mahine aur din me.',
+     fields:[{k:'dob',label:'Janm tithi',type:'date',def:'2000-01-01'}],
+     run:function(v){
+       if(!v.dob) return {error:'Janm tithi chunein.'};
+       var p=v.dob.split('-'), b=new Date(+p[0],+p[1]-1,+p[2]);
+       var t=new Date(), t0=new Date(t.getFullYear(),t.getMonth(),t.getDate());
+       if(isNaN(b.getTime())||b>t0) return {error:'Janm tithi aaj se pehle ki honi chahiye.'};
+       var y=t0.getFullYear()-b.getFullYear(), m=t0.getMonth()-b.getMonth(), d=t0.getDate()-b.getDate();
+       if(d<0){ m--; d+=new Date(t0.getFullYear(),t0.getMonth(),0).getDate(); }
+       if(m<0){ y--; m+=12; }
+       var nx=new Date(t0.getFullYear(),b.getMonth(),b.getDate());
+       if(nx<t0) nx.setFullYear(nx.getFullYear()+1);
+       var left=Math.round((nx-t0)/864e5), lived=Math.round((t0-b)/864e5);
+       return {head:['Aapki umar',y+' saal, '+m+' mahine, '+d+' din'],
+         rows:[['Ab tak jiye mahine',NF.format(y*12+m)+' mahine, '+d+' din'],
+               ['Ab tak jiye hafte',NF.format(Math.floor(lived/7))+' hafte, '+(lived%7)+' din'],
+               ['Ab tak jiye din',NF.format(lived)],
+               ['Ab tak jiye ghante',NF.format(lived*24)],
+               ['Aap is din paida hue',['Ravivaar','Somvaar','Mangalvaar','Budhvaar','Guruvaar','Shukravaar','Shanivaar'][b.getDay()]],
+               ['Agla janmdin',left===0?'Aaj hai':left+' din baad']]};
+     }},
+    {id:'bmi',group:'Roz ke kaam',name:'BMI Calculator',desc:'Height aur weight se Body Mass Index.',
+     fields:[{k:'h',label:'Height (cm)',min:100,max:220,step:1,def:170},{k:'w',label:'Weight (kg)',min:20,max:200,step:1,def:65}],
+     run:function(v){
+       if(!(v.h>0)||!(v.w>0)) return {error:'Height aur weight 0 se zyada daalein.'};
+       var m=v.h/100, bmi=v.w/(m*m), c;
+       if(bmi<18.5) c='Kam vajan'; else if(bmi<25) c='Normal'; else if(bmi<30) c='Zyada vajan'; else c='Motapa';
+       return {head:['Aapka BMI',NFP.format(Math.round(bmi*10)/10)+' ('+c+')'],
+         rows:[['Normal range ka vajan',NFP.format(Math.round(18.5*m*m*10)/10)+' se '+NFP.format(Math.round(24.9*m*m*10)/10)+' kg']],
+         note:'Ye sirf ek andaza hai, doctor ki salah nahi. Sehat ke baare me doctor se baat karein.'};
+     }}
+  ];
+
+  var byId={}, state={}, current=null;
+  calcs.forEach(function(c){ byId[c.id]=c; state[c.id]={}; c.fields.forEach(function(f){ state[c.id][f.k]=f.def; }); });
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function fieldHTML(c,f){
+    var id='f-'+f.k, val=state[c.id][f.k];
+    if(f.type==='select'){
+      return '<div class="field"><label for="'+id+'">'+esc(f.label)+'</label><select id="'+id+'" data-k="'+f.k+'">'+
+        f.opts.map(function(o){ return '<option value="'+o[0]+'"'+(String(o[0])===String(val)?' selected':'')+'>'+esc(o[1])+'</option>'; }).join('')+'</select></div>';
+    }
+    if(f.type==='seg'){
+      return '<div class="field"><label>'+esc(f.label)+'</label><div class="seg" role="radiogroup">'+
+        f.opts.map(function(o,i){ return '<label><input type="radio" name="'+f.k+'" data-k="'+f.k+'" value="'+o[0]+'"'+(o[0]===val?' checked':'')+'><span>'+esc(o[1])+'</span></label>'; }).join('')+'</div></div>';
+    }
+    if(f.type==='date'){
+      return '<div class="field"><label for="'+id+'">'+esc(f.label)+'</label><input type="date" id="'+id+'" data-k="'+f.k+'" value="'+esc(val)+'"></div>';
+    }
+    var slider = '<input type="range" id="'+id+'-r" data-k="'+f.k+'" data-s="1" min="'+f.min+'" max="'+f.max+'" step="'+f.step+'" value="'+val+'" aria-label="'+esc(f.label)+' slider">';
+    return '<div class="field"><label for="'+id+'">'+esc(f.label)+'</label><div class="row">'+
+      '<div class="inp">'+(f.unit&&f.unit==='₹'?'<span class="u">₹</span>':'')+'<input type="number" inputmode="decimal" id="'+id+'" data-k="'+f.k+'" min="0" step="'+f.step+'" value="'+val+'">'+(f.unit==='%'?'<span class="u">%</span>':'')+'</div>'+
+      slider+'</div></div>';
+  }
+
+  function resultHTML(c){
+    var v={}, k; for(k in state[c.id]) v[k]=state[c.id][k];
+    c.fields.forEach(function(f){ if(!f.type||f.type==='number'){ v[f.k]=parseFloat(v[f.k]); if(isNaN(v[f.k])) v[f.k]=0; } });
+    var r=c.run(v);
+    if(r.error) return '<p class="err">'+esc(r.error)+'</p>';
+    var h='<p class="big-l">'+esc(r.head[0])+'</p><p class="big-v">'+esc(r.head[1])+'</p>';
+    if(r.split){
+      var tot=r.split[0][1]+r.split[1][1];
+      var wa = tot>0 ? Math.max(0,Math.min(100,r.split[0][1]/tot*100)) : 0;
+      h+='<div class="bar" role="img" aria-label="'+esc(r.split[0][0])+' aur '+esc(r.split[1][0])+' ka hissa"><i style="width:'+wa.toFixed(2)+'%;background:var(--accent2)"></i><i style="width:'+(100-wa).toFixed(2)+'%;background:var(--accent)"></i></div>'+
+         '<p class="legend"><span><b style="background:var(--accent2)"></b>'+esc(r.split[0][0])+'</span><span><b style="background:var(--accent)"></b>'+esc(r.split[1][0])+'</span></p>';
+    }
+    if(r.rows&&r.rows.length){
+      h+='<dl>'+r.rows.map(function(x){ return '<div class="res-row"><dt>'+esc(x[0])+'</dt><dd>'+esc(x[1])+'</dd></div>'; }).join('')+'</dl>';
+    }
+    if(r.note) h+='<p class="note">'+esc(r.note)+'</p>';
+    return h;
+  }
+
+
+  function onInput(e){
+    var t=e.target, k=t.getAttribute('data-k'); if(!k||!current) return;
+    state[current.id][k]=t.value;
+    var f=current.fields.filter(function(x){return x.k===k;})[0];
+    if(f && (!f.type||f.type==='number')){
+      var el=document.getElementById('f-'+k), rg=document.getElementById('f-'+k+'-r');
+      if(t.getAttribute('data-s')){ el.value=t.value; }
+      else if(rg){ var n=parseFloat(t.value); if(!isNaN(n)) rg.value=Math.min(f.max,Math.max(f.min,n)); }
+    }
+    document.getElementById('out').innerHTML=resultHTML(current);
+  }
+  var c=byId[document.documentElement.getAttribute('data-calc')];
+  if(c){
+    current=c;
+    document.getElementById('calc').innerHTML='<div class="cols"><div id="form">'+
+      c.fields.map(function(f){ return fieldHTML(c,f); }).join('')+'</div><div class="result" id="out" aria-live="polite">'+resultHTML(c)+'</div></div>';
+    var form=document.getElementById('form');
+    form.addEventListener('input',onInput);
+    form.addEventListener('change',onInput);
+  }
+})();</script>
+</body>
+</html>
