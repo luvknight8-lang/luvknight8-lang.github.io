@@ -213,12 +213,18 @@ footer nav{position:static;flex-direction:row;gap:14px;margin-bottom:8px}
          note:'Byaj har 3 mahine me judta hua maana gaya hai. Bank ka asli hisaab thoda alag ho sakta hai.'};
      }},
     {id:'compound',group:'Paisa aur nivesh',name:'Compound Interest',desc:'Byaj par byaj lagakar rashi kitni badhegi.',
-     fields:[{k:'amount',label:'Mool rashi',unit:'₹',min:1000,max:10000000,step:1000,def:100000},rateField(8),YEARS,Object.assign({},FREQ,{def:'1'})],
+     fields:[{k:'amount',label:'Shuruati rashi (ek baar)',unit:'₹',min:0,max:10000000,step:1000,def:100000},
+             {k:'monthly',label:'Har mahine aur kitna jodoge (optional)',unit:'₹',min:0,max:100000,step:500,def:0},
+             rateField(8),YEARS,Object.assign({},FREQ,{def:'1',label:'Byaj kitni baar rashi me judta hai'})],
      run:function(v){
-       var f=+v.f, a=v.amount*Math.pow(1+v.rate/(100*f),f*v.years);
+       var f=+v.f, n=Math.round(v.years*12), d=v.monthly||0;
+       var eff=Math.pow(1+v.rate/(100*f),f)-1, m=Math.pow(1+eff,1/12)-1, g=Math.pow(1+m,n);
+       var a=v.amount*g + (m>0 ? d*(g-1)/m*(1+m) : d*n);
+       var inv=v.amount+d*n;
        return {head:['Kul rashi',inr(a)],
-         split:[['Mool rashi',v.amount,'a'],['Byaj',a-v.amount,'b']],
-         rows:[['Mool rashi',inr(v.amount)],['Kul byaj',inr(a-v.amount)],['Kul rashi',inr(a)]]};
+         split:[['Aapka lagaya hua paisa',inv,'a'],['Byaj',a-inv,'b']],
+         rows:[['Shuruati rashi (ek baar)',inr(v.amount)],['Har mahine ki jama (kul)',inr(d*n)],['Kul byaj',inr(a-inv)],['Kul rashi',inr(a)]],
+         note:'Har mahine ki jama mahine ki shuruaat me maani gayi hai. "Byaj kitni baar judta hai" sirf byaj ka hisaab badalta hai, aapki jama nahi.'};
      }},
     {id:'simple',group:'Paisa aur nivesh',name:'Simple Interest',desc:'Sirf mool rashi par lagne wala sadharan byaj.',
      fields:[{k:'amount',label:'Mool rashi',unit:'₹',min:1000,max:10000000,step:1000,def:100000},rateField(8,30),{k:'years',label:'Samay (saal)',min:1,max:30,step:1,def:3}],
