@@ -143,6 +143,19 @@ footer p{margin:0 0 6px}
 .wrap.one{grid-template-columns:minmax(0,1fr)}
 .top-in a.brand-link{text-decoration:none;color:inherit}
 footer nav{position:static;flex-direction:row;gap:14px;margin-bottom:8px}
+.sched{margin-top:26px;padding-top:20px;border-top:1px solid var(--line)}
+.sched-h{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.sched-h h2{font-size:20px;margin:0}
+.tg{display:flex;gap:6px;flex-wrap:wrap}
+.tg button{font:inherit;font-weight:600;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer}
+.tg button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.tw{overflow:auto;max-height:440px;border:1px solid var(--line);border-radius:10px}
+.tw table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:15.5px}
+.tw th,.tw td{padding:8px 12px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--line)}
+.tw th:first-child,.tw td:first-child{text-align:left}
+.tw thead th{position:sticky;top:0;background:var(--surface);z-index:1;font-weight:700}
+.tw tfoot td{position:sticky;bottom:0;background:var(--accent-soft);font-weight:700}
+.tw tbody tr:nth-child(even) td{background:var(--bg)}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "CAGR Calculator", "url": "https://luvknight8-lang.github.io/cagr-calculator/", "applicationCategory": "FinanceApplication", "operatingSystem": "Any", "inLanguage": "en-IN", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "INR"}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "CAGR aur absolute return me kya antar hai?", "acceptedAnswer": {"@type": "Answer", "text": "Absolute return poore samay ka kul fayda dikhata hai. CAGR use saal ke average growth me badalta hai, jisse alag samay ki tulna ho sakti hai."}}, {"@type": "Question", "name": "Kya CAGR har saal ka asli return hai?", "acceptedAnswer": {"@type": "Answer", "text": "Nahi. Ye ek smooth average hai. Beech ke saalon me asli return upar neeche ho sakta hai."}}]}</script>
@@ -170,6 +183,9 @@ footer nav{position:static;flex-direction:row;gap:14px;margin-bottom:8px}
   var YEARS = {k:'years',label:'Samay (saal)',min:1,max:40,step:1,def:10};
   function rateField(def,max){ return {k:'rate',label:'Byaj ya return ki dar (saal ka)',unit:'%',min:1,max:max||30,step:0.1,def:def}; }
   var FREQ = {k:'f',label:'Byaj kitni baar judta hai',type:'select',def:'4',opts:[['1','Saal me ek baar'],['2','Har 6 mahine'],['4','Har 3 mahine (quarter)'],['12','Har mahine']]};
+  function rollSched(n,start,dep,m){var rows=[{k:0,d:start,i:0,b:start}],b=start,k,bb;for(k=1;k<=n;k++){bb=b;b=(b+dep)*(1+m);rows.push({k:k,d:dep,i:b-bb-dep,b:b});}return rows;}
+  function simpleSched(P,rate,years){var n=Math.round(years*12),mi=P*rate/1200,rows=[{k:0,d:P,i:0,b:P}],k;for(k=1;k<=n;k++)rows.push({k:k,d:0,i:mi,b:P+mi*k});return rows;}
+  function emiSched(P,r,n,emi){var rows=[],b=P,k,it,pr;for(k=1;k<=n;k++){it=b*r;pr=emi-it;b=Math.max(0,b-pr);rows.push({k:k,e:emi,p:pr,i:it,b:b});}return rows;}
 
   var calcs = [
     {id:'sip',group:'Paisa aur nivesh',name:'SIP Calculator',desc:'Har mahine ek fixed rashi lagane par kitna paisa ban sakta hai.',
@@ -178,7 +194,7 @@ footer nav{position:static;flex-direction:row;gap:14px;margin-bottom:8px}
        var i=v.rate/1200, n=v.years*12;
        var fv = i>0 ? v.amount*((Math.pow(1+i,n)-1)/i)*(1+i) : v.amount*n;
        var inv=v.amount*n;
-       return {head:['Kul rashi (maturity)',inr(fv)],
+       return {sched:{type:'grow',rows:rollSched(Math.round(n),0,v.amount,i)},head:['Kul rashi (maturity)',inr(fv)],
          split:[['Lagaya hua paisa',inv,'a'],['Kamaya hua return',fv-inv,'b']],
          rows:[['Lagaya hua paisa',inr(inv)],['Kamaya hua return',inr(fv-inv)],['Kul rashi',inr(fv)]],
          note:'Maana gaya hai ki return har saal ek hi dar se milta hai. Market me asli return upar neeche hota rehta hai.'};
@@ -187,7 +203,7 @@ footer nav{position:static;flex-direction:row;gap:14px;margin-bottom:8px}
      fields:[{k:'amount',label:'Ek baar ka nivesh',unit:'₹',min:1000,max:10000000,step:1000,def:100000},rateField(12),YEARS],
      run:function(v){
        var fv=v.amount*Math.pow(1+v.rate/100,v.years);
-       return {head:['Kul rashi (maturity)',inr(fv)],
+       return {sched:{type:'grow',rows:rollSched(Math.round(v.years*12),v.amount,0,Math.pow(1+v.rate/100,1/12)-1)},head:['Kul rashi (maturity)',inr(fv)],
          split:[['Lagaya hua paisa',v.amount,'a'],['Kamaya hua return',fv-v.amount,'b']],
          rows:[['Lagaya hua paisa',inr(v.amount)],['Kamaya hua return',inr(fv-v.amount)],['Kul rashi',inr(fv)]],
          note:'Return har saal ek hi dar se judta hua maana gaya hai.'};
@@ -196,7 +212,7 @@ footer nav{position:static;flex-direction:row;gap:14px;margin-bottom:8px}
      fields:[{k:'amount',label:'FD ki rashi',unit:'₹',min:1000,max:10000000,step:1000,def:100000},rateField(7,15),{k:'years',label:'Samay (saal)',min:1,max:20,step:1,def:5},FREQ],
      run:function(v){
        var f=+v.f, fv=v.amount*Math.pow(1+v.rate/(100*f),f*v.years);
-       return {head:['Maturity ki rashi',inr(fv)],
+       return {sched:{type:'grow',rows:rollSched(Math.round(v.years*12),v.amount,0,Math.pow(1+v.rate/(100*f),f/12)-1)},head:['Maturity ki rashi',inr(fv)],
          split:[['Jama ki hui rashi',v.amount,'a'],['Byaj',fv-v.amount,'b']],
          rows:[['Jama ki hui rashi',inr(v.amount)],['Kul byaj',inr(fv-v.amount)],['Maturity ki rashi',inr(fv)]],
          note:'FD ki dar bank ke hisaab se badalti hai. Tax alag se lag sakta hai.'};
@@ -207,7 +223,7 @@ footer nav{position:static;flex-direction:row;gap:14px;margin-bottom:8px}
        var n=v.years*12, total=0, k, m;
        for(k=1;k<=n;k++){ m=n-k+1; total+=v.amount*Math.pow(1+v.rate/400,4*m/12); }
        var inv=v.amount*n;
-       return {head:['Maturity ki rashi',inr(total)],
+       return {sched:{type:'grow',rows:rollSched(n,0,v.amount,Math.pow(1+v.rate/400,1/3)-1)},head:['Maturity ki rashi',inr(total)],
          split:[['Jama ki hui rashi',inv,'a'],['Byaj',total-inv,'b']],
          rows:[['Jama ki hui rashi',inr(inv)],['Kul byaj',inr(total-inv)],['Maturity ki rashi',inr(total)]],
          note:'Byaj har 3 mahine me judta hua maana gaya hai. Bank ka asli hisaab thoda alag ho sakta hai.'};
@@ -221,7 +237,7 @@ footer nav{position:static;flex-direction:row;gap:14px;margin-bottom:8px}
        var eff=Math.pow(1+v.rate/(100*f),f)-1, m=Math.pow(1+eff,1/12)-1, g=Math.pow(1+m,n);
        var a=v.amount*g + (m>0 ? d*(g-1)/m*(1+m) : d*n);
        var inv=v.amount+d*n;
-       return {head:['Kul rashi',inr(a)],
+       return {sched:{type:'grow',rows:rollSched(n,v.amount,d,m)},head:['Kul rashi',inr(a)],
          split:[['Aapka lagaya hua paisa',inv,'a'],['Byaj',a-inv,'b']],
          rows:[['Shuruati rashi (ek baar)',inr(v.amount)],['Har mahine ki jama (kul)',inr(d*n)],['Kul byaj',inr(a-inv)],['Kul rashi',inr(a)]],
          note:'Har mahine ki jama mahine ki shuruaat me maani gayi hai. "Byaj kitni baar judta hai" sirf byaj ka hisaab badalta hai, aapki jama nahi.'};
@@ -230,7 +246,7 @@ footer nav{position:static;flex-direction:row;gap:14px;margin-bottom:8px}
      fields:[{k:'amount',label:'Mool rashi',unit:'₹',min:1000,max:10000000,step:1000,def:100000},rateField(8,30),{k:'years',label:'Samay (saal)',min:1,max:30,step:1,def:3}],
      run:function(v){
        var i=v.amount*v.rate*v.years/100;
-       return {head:['Kul rashi',inr(v.amount+i)],
+       return {sched:{type:'grow',rows:simpleSched(v.amount,v.rate,v.years)},head:['Kul rashi',inr(v.amount+i)],
          split:[['Mool rashi',v.amount,'a'],['Byaj',i,'b']],
          rows:[['Mool rashi',inr(v.amount)],['Sadharan byaj',inr(i)],['Kul rashi',inr(v.amount+i)]]};
      }},
@@ -248,7 +264,7 @@ footer nav{position:static;flex-direction:row;gap:14px;margin-bottom:8px}
        var r=v.rate/1200, n=v.years*12;
        var emi = r>0 ? v.amount*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1) : v.amount/n;
        var total=emi*n;
-       return {head:['Mahine ki EMI',inr(emi)],
+       return {sched:{type:'emi',rows:emiSched(v.amount,r,n,emi)},head:['Mahine ki EMI',inr(emi)],
          split:[['Mool rashi',v.amount,'a'],['Kul byaj',total-v.amount,'b']],
          rows:[['Mool rashi',inr(v.amount)],['Kul byaj',inr(total-v.amount)],['Kul chukane wali rashi',inr(total)]],
          note:'Processing fee aur anya charge isme shamil nahi hain.'};
@@ -360,6 +376,45 @@ footer nav{position:static;flex-direction:row;gap:14px;margin-bottom:8px}
   }
 
 
+  var view='y';
+  function getRun(c){
+    var v={},k; for(k in state[c.id]) v[k]=state[c.id][k];
+    c.fields.forEach(function(f){ if(!f.type||f.type==='number'){ v[f.k]=parseFloat(v[f.k]); if(isNaN(v[f.k])) v[f.k]=0; } });
+    return c.run(v);
+  }
+  function yearly(rows){
+    var data=rows.filter(function(x){return x.k>0;}), out=[], s, ch, o;
+    for(s=0;s<data.length;s+=12){
+      ch=data.slice(s,s+12); o={lbl:'Saal '+(s/12+1),d:0,p:0,i:0,e:0,b:ch[ch.length-1].b};
+      ch.forEach(function(x){ o.d+=x.d||0; o.p+=x.p||0; o.i+=x.i; o.e+=x.e||0; });
+      out.push(o);
+    }
+    return out;
+  }
+  function schedHTML(r){
+    if(!r||!r.sched||!r.sched.rows||!r.sched.rows.length) return '';
+    var emi=r.sched.type==='emi', rows=r.sched.rows, list, first=null, tot={d:0,p:0,i:0,e:0}, last, body='', head;
+    if(view==='y') list=yearly(rows);
+    else list=rows.filter(function(x){return x.k>0;}).map(function(x){ return {lbl:'Mahina '+x.k,d:x.d||0,p:x.p||0,i:x.i,e:x.e||0,b:x.b}; });
+    if(!emi && rows[0] && rows[0].k===0 && rows[0].d>0) first={lbl:'Shuru me',d:rows[0].d,i:0,b:rows[0].b};
+    if(!list.length) return '';
+    if(first){ tot.d+=first.d; body+='<tr><td>Shuru me</td><td>'+inr(first.d)+'</td><td>-</td><td>'+inr(first.b)+'</td></tr>'; }
+    list.forEach(function(x){
+      tot.d+=x.d; tot.p+=x.p; tot.i+=x.i; tot.e+=x.e;
+      body+= emi ? '<tr><td>'+x.lbl+'</td><td>'+inr(x.e)+'</td><td>'+inr(x.p)+'</td><td>'+inr(x.i)+'</td><td>'+inr(x.b)+'</td></tr>'
+                 : '<tr><td>'+x.lbl+'</td><td>'+inr(x.d)+'</td><td>'+inr(x.i)+'</td><td>'+inr(x.b)+'</td></tr>';
+    });
+    last=list[list.length-1];
+    head = emi ? '<tr><th>Samay</th><th>EMI</th><th>Mool rashi</th><th>Byaj</th><th>Baaki loan</th></tr>'
+               : '<tr><th>Samay</th><th>Aapne lagaya</th><th>Byaj mila</th><th>Kul rashi</th></tr>';
+    var foot = emi ? '<tr><td>Kul</td><td>'+inr(tot.e)+'</td><td>'+inr(tot.p)+'</td><td>'+inr(tot.i)+'</td><td>'+inr(last.b)+'</td></tr>'
+                   : '<tr><td>Kul</td><td>'+inr(tot.d)+'</td><td>'+inr(tot.i)+'</td><td>'+inr(last.b)+'</td></tr>';
+    return '<div class="sched-h"><h2>Hisaab ki table</h2><div class="tg" role="group" aria-label="Table dekhne ka tareeka">'+
+      '<button type="button" data-v="y" aria-pressed="'+(view==='y')+'">Saal ke hisaab se</button>'+
+      '<button type="button" data-v="m" aria-pressed="'+(view==='m')+'">Mahine ke hisaab se</button></div></div>'+
+      '<div class="tw"><table><thead>'+head+'</thead><tbody>'+body+'</tbody><tfoot>'+foot+'</tfoot></table></div>'+
+      '<p class="note">Rashi rupaye me gol karke dikhayi gayi hai, isliye jod me 1-2 rupaye ka farq ho sakta hai. Mahine ka byaj barabar barabar baanta gaya hai, aur saal ke ant ki rashi upar ke result se milti hai.</p>';
+  }
   function onInput(e){
     var t=e.target, k=t.getAttribute('data-k'); if(!k||!current) return;
     state[current.id][k]=t.value;
@@ -370,15 +425,17 @@ footer nav{position:static;flex-direction:row;gap:14px;margin-bottom:8px}
       else if(rg){ var n=parseFloat(t.value); if(!isNaN(n)) rg.value=Math.min(f.max,Math.max(f.min,n)); }
     }
     document.getElementById('out').innerHTML=resultHTML(current);
+    document.getElementById('sched').innerHTML=schedHTML(getRun(current));
   }
   var c=byId[document.documentElement.getAttribute('data-calc')];
   if(c){
     current=c;
     document.getElementById('calc').innerHTML='<div class="cols"><div id="form">'+
-      c.fields.map(function(f){ return fieldHTML(c,f); }).join('')+'</div><div class="result" id="out" aria-live="polite">'+resultHTML(c)+'</div></div>';
+      c.fields.map(function(f){ return fieldHTML(c,f); }).join('')+'</div><div class="result" id="out" aria-live="polite">'+resultHTML(c)+'</div></div><div class="sched" id="sched">'+schedHTML(getRun(c))+'</div>';
     var form=document.getElementById('form');
     form.addEventListener('input',onInput);
     form.addEventListener('change',onInput);
+    document.getElementById('calc').addEventListener('click',function(e){var b=e.target.closest('button[data-v]'); if(!b) return; view=b.getAttribute('data-v'); document.getElementById('sched').innerHTML=schedHTML(getRun(current));});
   }
 })();</script>
 </body>
