@@ -163,7 +163,7 @@ footer nav{position:static;flex-direction:row;gap:14px;margin-bottom:8px}
 <body>
 <header class="top"><div class="top-in"><p class="brand"><a class="brand-link" href="/">Hisaab <span>Kitab</span></a></p><p class="tag">Free calculators. Paisa, loan, GST aur roz ke hisaab ke liye.</p></div></header>
 <main class="wrap">
-<nav id="nav" aria-label="Calculators"><div class="grp"><h2>Paisa aur nivesh</h2><ul><li><a href="/sip-calculator/">SIP Calculator</a></li><li><a href="/lumpsum-calculator/">Lumpsum Calculator</a></li><li><a href="/fd-calculator/">FD Calculator</a></li><li><a href="/rd-calculator/">RD Calculator</a></li><li><a href="/compound-interest-calculator/">Compound Interest Calculator</a></li><li><a href="/simple-interest-calculator/">Simple Interest Calculator</a></li><li><a href="/cagr-calculator/">CAGR Calculator</a></li></ul></div><div class="grp"><h2>Loan</h2><ul><li><a href="/emi-calculator/">EMI Calculator</a></li></ul></div><div class="grp"><h2>GST aur bill</h2><ul><li><a href="/gst-calculator/">GST Calculator</a></li><li><a href="/discount-calculator/">Discount Calculator</a></li><li><a href="/percentage-calculator/" aria-current="true">Percentage Calculator</a></li></ul></div><div class="grp"><h2>Roz ke kaam</h2><ul><li><a href="/age-calculator/">Age Calculator</a></li><li><a href="/bmi-calculator/">BMI Calculator</a></li></ul></div></nav>
+<nav id="nav" aria-label="Calculators"><div class="grp"><h2>Paisa aur nivesh</h2><ul><li><a href="/sip-calculator/">SIP Calculator</a></li><li><a href="/lumpsum-calculator/">Lumpsum Calculator</a></li><li><a href="/fd-calculator/">FD Calculator</a></li><li><a href="/rd-calculator/">RD Calculator</a></li><li><a href="/compound-interest-calculator/">Compound Interest Calculator</a></li><li><a href="/simple-interest-calculator/">Simple Interest Calculator</a></li><li><a href="/cagr-calculator/">CAGR Calculator</a></li></ul></div><div class="grp"><h2>Loan</h2><ul><li><a href="/emi-calculator/">EMI Calculator</a></li></ul></div><div class="grp"><h2>GST aur bill</h2><ul><li><a href="/gst-calculator/">GST Calculator</a></li><li><a href="/discount-calculator/">Discount Calculator</a></li><li><a href="/percentage-calculator/" aria-current="true">Percentage Calculator</a></li><li><a href="/amount-in-words/">Amount in Words</a></li><li><a href="/profit-margin-calculator/">Profit Margin Calculator</a></li></ul></div><div class="grp"><h2>Roz ke kaam</h2><ul><li><a href="/age-calculator/">Age Calculator</a></li><li><a href="/bmi-calculator/">BMI Calculator</a></li><li><a href="/days-between-dates/">Days Between Dates</a></li></ul></div><div class="grp"><h2>Converter</h2><ul><li><a href="/cm-to-feet-converter/">CM to Feet</a></li><li><a href="/feet-to-cm-converter/">Feet to CM</a></li><li><a href="/length-converter/">Length Converter</a></li><li><a href="/weight-converter/">Weight Converter</a></li><li><a href="/temperature-converter/">Temperature Converter</a></li><li><a href="/area-converter/">Area Converter</a></li><li><a href="/speed-converter/">Speed Converter</a></li></ul></div></nav>
 <div class="main">
 <section class="panel"><h1>Percentage Calculator</h1><p class="desc">Teen tarah ke percentage ke sawal ek jagah.</p><div id="calc"><p class="note">Calculator load ho raha hai. Agar ye dikhta rahe, to JavaScript chalu karein.</p></div></section>
 <article class="panel prose"><h2>Percentage Calculator kya hai</h2><p>Ye calculator teen aam sawal hal karta hai: kisi sankhya ka kuch percent kitna hota hai, ek sankhya doosri ka kitna percent hai, aur do sankhyaon ke beech percent badlav kitna hai.</p><h2>Ye kaise kaam karta hai</h2><p>A ka B% = A x B / 100. A, B ka kitna % = A / B x 100. A se B tak badlav = (B - A) / A x 100.</p><h2>Aksar pooche jaane wale sawal</h2><h3>Percent increase aur percent decrease kaise nikalte hain?</h3><p>Naya aur purana maan daalein. Result positive ho to badhat hai, negative ho to kami.</p><h3>Percentage aur percentage point me kya antar hai?</h3><p>Agar dar 10% se 12% ho, to ye 2 percentage point ka badlav hai, par 20% ki badhat hai.</p></article>
@@ -186,6 +186,36 @@ footer nav{position:static;flex-direction:row;gap:14px;margin-bottom:8px}
   function rollSched(n,start,dep,m){var rows=[{k:0,d:start,i:0,b:start}],b=start,k,bb;for(k=1;k<=n;k++){bb=b;b=(b+dep)*(1+m);rows.push({k:k,d:dep,i:b-bb-dep,b:b});}return rows;}
   function simpleSched(P,rate,years){var n=Math.round(years*12),mi=P*rate/1200,rows=[{k:0,d:P,i:0,b:P}],k;for(k=1;k<=n;k++)rows.push({k:k,d:0,i:mi,b:P+mi*k});return rows;}
   function emiSched(P,r,n,emi){var rows=[],b=P,k,it,pr;for(k=1;k<=n;k++){it=b*r;pr=emi-it;b=Math.max(0,b-pr);rows.push({k:k,e:emi,p:pr,i:it,b:b});}return rows;}
+  var NF6=new Intl.NumberFormat('en-IN',{maximumFractionDigits:6});
+  function fmtN(v){ if(!isFinite(v)) return '-'; var a=Math.abs(v); if(a!==0&&(a<1e-6||a>=1e15)) return Number(v.toPrecision(6)).toString(); return NF6.format(v); }
+  function convCalc(o){
+    var opts=o.units.map(function(u){return [u[0],u[1]];});
+    return {id:o.id,group:'Converter',name:o.name,desc:o.desc,
+      fields:[{k:'val',label:'Value',min:0,max:0,step:'any',def:o.defVal,noslider:true},
+              {k:'from',label:'Kis unit se',type:'select',def:o.from,opts:opts},
+              {k:'to',label:'Kis unit me',type:'select',def:o.to,opts:opts}],
+      run:function(v){
+        var uf,ut,base,out;
+        o.units.forEach(function(u){ if(u[0]===v.from) uf=u; if(u[0]===v.to) ut=u; });
+        base=v.val*uf[2]; out=base/ut[2];
+        return {head:[fmtN(v.val)+' '+uf[3]+' barabar',fmtN(out)+' '+ut[3]],
+          rows:o.units.map(function(u){ return [u[1],fmtN(base/u[2])+' '+u[3]]; }),
+          note:o.note||''};
+      }};
+  }
+  var ONES=['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+  var TENS=['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+  function w99(n){ return n<20 ? ONES[n] : TENS[Math.floor(n/10)]+(n%10?' '+ONES[n%10]:''); }
+  function wordsIN(n){
+    var out=[],cr=Math.floor(n/1e7),lk,th; n=n%1e7; lk=Math.floor(n/1e5); n=n%1e5; th=Math.floor(n/1e3); n=n%1e3;
+    if(cr) out.push(wordsIN(cr)+' Crore');
+    if(lk) out.push(w99(lk)+' Lakh');
+    if(th) out.push(w99(th)+' Thousand');
+    if(n>=100){ out.push(ONES[Math.floor(n/100)]+' Hundred'); n=n%100; }
+    if(n) out.push(w99(n));
+    return out.join(' ');
+  }
+  function parseD(str){ var q=(str||'').split('-'); if(q.length!==3) return null; var d=new Date(+q[0],+q[1]-1,+q[2]); return isNaN(d.getTime())?null:d; }
 
   var calcs = [
     {id:'sip',group:'Paisa aur nivesh',name:'SIP Calculator',desc:'Har mahine ek fixed rashi lagane par kitna paisa ban sakta hai.',
@@ -332,6 +362,80 @@ footer nav{position:static;flex-direction:row;gap:14px;margin-bottom:8px}
          rows:[['Normal range ka vajan',NFP.format(Math.round(18.5*m*m*10)/10)+' se '+NFP.format(Math.round(24.9*m*m*10)/10)+' kg']],
          note:'Ye sirf ek andaza hai, doctor ki salah nahi. Sehat ke baare me doctor se baat karein.'};
      }}
+    ,{id:'cm2ft',group:'Converter',name:'CM to Feet',desc:'Height ko centimetre se feet aur inch me badlein.',
+     fields:[{k:'cm',label:'Height (cm)',min:50,max:250,step:0.5,def:170}],
+     run:function(v){
+       if(!(v.cm>0)) return {error:'Height 0 se zyada daalein.'};
+       var ti=v.cm/2.54, ft=Math.floor(ti/12), inch=Math.round((ti-12*ft)*10)/10;
+       if(inch>=12){ ft+=1; inch=0; }
+       return {head:['Aapki height',ft+' ft '+NFP.format(inch)+' in'],
+         rows:[['Feet me (decimal)',fmtN(Math.round(v.cm/30.48*10000)/10000)+' ft'],['Kul inch',NFP.format(Math.round(ti*100)/100)+' in'],['Meter me',NFP.format(v.cm/100)+' m']]};
+     }}
+    ,{id:'ft2cm',group:'Converter',name:'Feet to CM',desc:'Height ko feet aur inch se centimetre me badlein.',
+     fields:[{k:'ft',label:'Feet',min:1,max:8,step:1,def:5},{k:'inch',label:'Inch',min:0,max:11.5,step:0.5,def:7}],
+     run:function(v){
+       var ti=v.ft*12+v.inch;
+       if(!(ti>0)) return {error:'Feet ya inch 0 se zyada daalein.'};
+       var cm=ti*2.54;
+       return {head:['Aapki height',NFP.format(Math.round(cm*100)/100)+' cm'],
+         rows:[['Meter me',NFP.format(Math.round(cm)/100)+' m'],['Kul inch',NFP.format(ti)+' in']]};
+     }}
+    ,convCalc({id:'length',name:'Length Converter',desc:'Lambai ko km, meter, mile, feet, inch me badlein.',defVal:1,from:'mi',to:'km',
+      units:[['km','Kilometre','1000','km'],['m','Metre','1','m'],['cm','Centimetre','0.01','cm'],['mm','Millimetre','0.001','mm'],['mi','Mile','1609.344','mile'],['yd','Yard','0.9144','yard'],['ft','Foot (feet)','0.3048','ft'],['in','Inch','0.0254','inch']].map(function(u){return [u[0],u[1],parseFloat(u[2]),u[3]];})})
+    ,convCalc({id:'weight',name:'Weight Converter',desc:'Vajan ko kg, gram, pound, ounce me badlein.',defVal:70,from:'kg',to:'lb',
+      units:[['t','Tonne','1000','tonne'],['q','Quintal','100','quintal'],['kg','Kilogram','1','kg'],['g','Gram','0.001','g'],['mg','Milligram','0.000001','mg'],['lb','Pound','0.45359237','lb'],['oz','Ounce','0.028349523125','oz']].map(function(u){return [u[0],u[1],parseFloat(u[2]),u[3]];})})
+    ,{id:'temp',group:'Converter',name:'Temperature Converter',desc:'Taapman ko Celsius, Fahrenheit aur Kelvin me badlein.',
+     fields:[{k:'val',label:'Taapman',min:0,max:0,step:'any',def:37,noslider:true,neg:true},
+             {k:'from',label:'Kis unit se',type:'select',def:'C',opts:[['C','Celsius (°C)'],['F','Fahrenheit (°F)'],['K','Kelvin (K)']]}],
+     run:function(v){
+       var c = v.from==='C' ? v.val : v.from==='F' ? (v.val-32)*5/9 : v.val-273.15;
+       if(c<-273.15) return {error:'Taapman absolute zero (-273.15 °C) se neeche nahi ho sakta.'};
+       var r2=function(x){ return NFP.format(Math.round(x*100)/100); };
+       return {head:[r2(v.val)+(v.from==='C'?' °C':v.from==='F'?' °F':' K')+' barabar',r2(v.from==='C'?c*9/5+32:v.from==='F'?c:c)+(v.from==='C'?' °F':v.from==='F'?' °C':' °C')],
+         rows:[['Celsius',r2(c)+' °C'],['Fahrenheit',r2(c*9/5+32)+' °F'],['Kelvin',r2(c+273.15)+' K']]};
+     }}
+    ,convCalc({id:'area',name:'Area Converter',desc:'Kshetrafal ko sq ft, sq meter, gaj, acre, hectare me badlein.',defVal:1,from:'acre',to:'sqft',
+      units:[['sqkm','Square kilometre','1000000','sq km'],['ha','Hectare','10000','hectare'],['acre','Acre','4046.8564224','acre'],['sqm','Square metre','1','sq m'],['sqyd','Square yard (gaj)','0.83612736','sq yard'],['sqft','Square feet','0.09290304','sq ft'],['sqin','Square inch','0.00064516','sq inch']].map(function(u){return [u[0],u[1],parseFloat(u[2]),u[3]];}),
+      note:'Bigha ka maap rajya ke hisaab se alag hota hai, isliye yahan nahi diya. Zameen ke kaagaz me likha maap dekhein.'})
+    ,convCalc({id:'speed',name:'Speed Converter',desc:'Raftaar ko km/h, mph, m/s aur knot me badlein.',defVal:100,from:'kmh',to:'mph',
+      units:[['kmh','Kilometre per hour','0.2777777777777778','km/h'],['ms','Metre per second','1','m/s'],['mph','Mile per hour','0.44704','mph'],['kn','Knot','0.5144444444444445','knot']].map(function(u){return [u[0],u[1],parseFloat(u[2]),u[3]];})})
+    ,{id:'words',group:'GST aur bill',name:'Amount in Words',desc:'Rupaye ke ank ko shabdon me likhein, cheque aur bill ke liye.',
+     fields:[{k:'amount',label:'Rashi (₹)',unit:'₹',min:0,max:0,step:'any',def:123456.78,noslider:true}],
+     run:function(v){
+       var x=v.amount;
+       if(!(x>=0)) return {error:'Rashi 0 ya usse zyada daalein.'};
+       if(x>=1e12) return {error:'Is calculator me 99,999 crore tak ki rashi daal sakte hain.'};
+       var cents=Math.round(x*100), r=Math.floor(cents/100), p=cents%100, t;
+       if(r===0&&p===0) t='Rupees Zero Only';
+       else if(r===0) t=w99(p)+' Paise Only';
+       else t='Rupees '+wordsIN(r)+(p?' and '+w99(p)+' Paise':'')+' Only';
+       return {head:['Shabdon me (English)',t],small:true,rows:[['Ank me',inr2(cents/100)]],note:'Bhartiya tareeke se (lakh aur crore) likha gaya hai.'};
+     }}
+    ,{id:'profit',group:'GST aur bill',name:'Profit Margin Calculator',desc:'Kharid aur bikri ke daam se profit, margin aur markup nikalein.',
+     fields:[{k:'cost',label:'Kharid ka daam (₹)',unit:'₹',min:0,max:0,step:'any',def:80,noslider:true},
+             {k:'sell',label:'Bikri ka daam (₹)',unit:'₹',min:0,max:0,step:'any',def:100,noslider:true}],
+     run:function(v){
+       if(!(v.cost>0)) return {error:'Kharid ka daam 0 se zyada daalein.'};
+       var pr=v.sell-v.cost, loss=pr<0, a=Math.abs(pr);
+       return {head:[loss?'Nuksaan':'Profit',inr2(a)],
+         rows:[[loss?'Nuksaan % (kharid par)':'Markup (kharid ke daam par)',pct(a/v.cost*100)],[loss?'Nuksaan % (bikri par)':'Margin (bikri ke daam par)',v.sell>0?pct(a/v.sell*100):'-'],['Kharid ka daam',inr2(v.cost)],['Bikri ka daam',inr2(v.sell)]],
+         note:'Markup kharid ke daam par aur margin bikri ke daam par nikalta hai, isliye dono ka percent alag aata hai.'};
+     }}
+    ,{id:'datediff',group:'Roz ke kaam',name:'Days Between Dates',desc:'Do tithiyon ke beech kitne din, hafte aur mahine hain.',
+     fields:[{k:'a',label:'Shuru ki tithi',type:'date',def:'2026-01-01'},{k:'b',label:'Antim tithi',type:'date',def:'2026-12-31'}],
+     run:function(v){
+       var x=parseD(v.a), y=parseD(v.b), t;
+       if(!x||!y) return {error:'Dono tithi chunein.'};
+       if(x>y){ t=x; x=y; y=t; }
+       var days=Math.round((y-x)/864e5);
+       var yy=y.getFullYear()-x.getFullYear(), mm=y.getMonth()-x.getMonth(), dd=y.getDate()-x.getDate();
+       if(dd<0){ mm--; dd+=new Date(y.getFullYear(),y.getMonth(),0).getDate(); }
+       if(mm<0){ yy--; mm+=12; }
+       var wd=0,i,c; if(days<=40000){ for(i=0;i<days;i++){ c=new Date(x.getFullYear(),x.getMonth(),x.getDate()+i).getDay(); if(c!==0&&c!==6) wd++; } }
+       return {head:['Dono tithiyon ke beech',NF.format(days)+' din'],
+         rows:[['Saal, mahine, din',yy+' saal, '+mm+' mahine, '+dd+' din'],['Hafte',NF.format(Math.floor(days/7))+' hafte, '+(days%7)+' din'],['Dono din milakar',NF.format(days+1)+' din'],['Kaam ke din (Som se Shukra)',days<=40000?NF.format(wd):'-']],
+         note:'Kaam ke din ginte samay chhutti ya tyohaar nahi ginay gaye hain.'};
+     }}
   ];
 
   var byId={}, state={}, current=null;
@@ -352,8 +456,8 @@ footer nav{position:static;flex-direction:row;gap:14px;margin-bottom:8px}
     }
     var slider = '<input type="range" id="'+id+'-r" data-k="'+f.k+'" data-s="1" min="'+f.min+'" max="'+f.max+'" step="'+f.step+'" value="'+val+'" aria-label="'+esc(f.label)+' slider">';
     return '<div class="field"><label for="'+id+'">'+esc(f.label)+'</label><div class="row">'+
-      '<div class="inp">'+(f.unit&&f.unit==='₹'?'<span class="u">₹</span>':'')+'<input type="number" inputmode="decimal" id="'+id+'" data-k="'+f.k+'" min="0" step="'+f.step+'" value="'+val+'">'+(f.unit==='%'?'<span class="u">%</span>':'')+'</div>'+
-      slider+'</div></div>';
+      '<div class="inp">'+(f.unit&&f.unit==='₹'?'<span class="u">₹</span>':'')+'<input type="number" inputmode="decimal" id="'+id+'" data-k="'+f.k+'"'+(f.neg?'':' min="0"')+' step="'+f.step+'" value="'+val+'">'+(f.unit==='%'?'<span class="u">%</span>':'')+'</div>'+
+      (f.noslider?'':slider)+'</div></div>';
   }
 
   function resultHTML(c){
@@ -361,7 +465,7 @@ footer nav{position:static;flex-direction:row;gap:14px;margin-bottom:8px}
     c.fields.forEach(function(f){ if(!f.type||f.type==='number'){ v[f.k]=parseFloat(v[f.k]); if(isNaN(v[f.k])) v[f.k]=0; } });
     var r=c.run(v);
     if(r.error) return '<p class="err">'+esc(r.error)+'</p>';
-    var h='<p class="big-l">'+esc(r.head[0])+'</p><p class="big-v">'+esc(r.head[1])+'</p>';
+    var h='<p class="big-l">'+esc(r.head[0])+'</p><p class="big-v'+(r.small?' sm':'')+'">'+esc(r.head[1])+'</p>';
     if(r.split){
       var tot=r.split[0][1]+r.split[1][1];
       var wa = tot>0 ? Math.max(0,Math.min(100,r.split[0][1]/tot*100)) : 0;
