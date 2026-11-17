@@ -100,6 +100,7 @@ select,input[type=date]{width:100%;border:1px solid var(--line);border-radius:8p
 .result{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:18px}
 .big-l{color:var(--muted);font-size:15px;margin:0}
 .big-v{font-family:var(--display);font-weight:700;font-size:40px;line-height:1.1;margin:2px 0 16px;color:var(--accent);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.big-v.sm{font-size:22px;line-height:1.3}
 .bar{display:flex;height:14px;border-radius:99px;overflow:hidden;background:var(--line);margin:0 0 10px}
 .bar i{display:block;height:100%}
 .legend{display:flex;gap:16px;flex-wrap:wrap;margin:0 0 14px;font-size:15px;color:var(--muted)}
@@ -163,7 +164,7 @@ footer nav{position:static;flex-direction:row;gap:14px;margin-bottom:8px}
 <body>
 <header class="top"><div class="top-in"><p class="brand"><a class="brand-link" href="/">Hisaab <span>Kitab</span></a></p><p class="tag">Free calculators. Paisa, loan, GST aur roz ke hisaab ke liye.</p></div></header>
 <main class="wrap">
-<nav id="nav" aria-label="Calculators"><div class="grp"><h2>Paisa aur nivesh</h2><ul><li><a href="/sip-calculator/">SIP Calculator</a></li><li><a href="/lumpsum-calculator/">Lumpsum Calculator</a></li><li><a href="/fd-calculator/">FD Calculator</a></li><li><a href="/rd-calculator/">RD Calculator</a></li><li><a href="/compound-interest-calculator/">Compound Interest Calculator</a></li><li><a href="/simple-interest-calculator/">Simple Interest Calculator</a></li><li><a href="/cagr-calculator/">CAGR Calculator</a></li></ul></div><div class="grp"><h2>Loan</h2><ul><li><a href="/emi-calculator/">EMI Calculator</a></li></ul></div><div class="grp"><h2>GST aur bill</h2><ul><li><a href="/gst-calculator/">GST Calculator</a></li><li><a href="/discount-calculator/">Discount Calculator</a></li><li><a href="/percentage-calculator/">Percentage Calculator</a></li><li><a href="/amount-in-words/">Amount in Words</a></li><li><a href="/profit-margin-calculator/">Profit Margin Calculator</a></li></ul></div><div class="grp"><h2>Roz ke kaam</h2><ul><li><a href="/age-calculator/">Age Calculator</a></li><li><a href="/bmi-calculator/">BMI Calculator</a></li><li><a href="/days-between-dates/">Days Between Dates</a></li></ul></div><div class="grp"><h2>Converter</h2><ul><li><a href="/cm-to-feet-converter/">CM to Feet</a></li><li><a href="/feet-to-cm-converter/">Feet to CM</a></li><li><a href="/length-converter/" aria-current="true">Length Converter</a></li><li><a href="/weight-converter/">Weight Converter</a></li><li><a href="/temperature-converter/">Temperature Converter</a></li><li><a href="/area-converter/">Area Converter</a></li><li><a href="/speed-converter/">Speed Converter</a></li></ul></div></nav>
+<nav id="nav" aria-label="Calculators"><div class="grp"><h2>Paisa aur nivesh</h2><ul><li><a href="/sip-calculator/">SIP Calculator</a></li><li><a href="/lumpsum-calculator/">Lumpsum Calculator</a></li><li><a href="/fd-calculator/">FD Calculator</a></li><li><a href="/rd-calculator/">RD Calculator</a></li><li><a href="/compound-interest-calculator/">Compound Interest Calculator</a></li><li><a href="/simple-interest-calculator/">Simple Interest Calculator</a></li><li><a href="/cagr-calculator/">CAGR Calculator</a></li></ul></div><div class="grp"><h2>Loan</h2><ul><li><a href="/emi-calculator/">EMI Calculator</a></li></ul></div><div class="grp"><h2>GST aur bill</h2><ul><li><a href="/gst-calculator/">GST Calculator</a></li><li><a href="/discount-calculator/">Discount Calculator</a></li><li><a href="/percentage-calculator/">Percentage Calculator</a></li><li><a href="/amount-in-words/">Amount in Words</a></li><li><a href="/profit-margin-calculator/">Profit Margin Calculator</a></li></ul></div><div class="grp"><h2>Roz ke kaam</h2><ul><li><a href="/age-calculator/">Age Calculator</a></li><li><a href="/bmi-calculator/">BMI Calculator</a></li><li><a href="/days-between-dates/">Days Between Dates</a></li></ul></div><div class="grp"><h2>Converter</h2><ul><li><a href="/cm-to-feet-converter/">CM to Feet</a></li><li><a href="/feet-to-cm-converter/">Feet to CM</a></li><li><a href="/length-converter/" aria-current="true">Length Converter</a></li><li><a href="/weight-converter/">Weight Converter</a></li><li><a href="/temperature-converter/">Temperature Converter</a></li><li><a href="/area-converter/">Area Converter</a></li><li><a href="/speed-converter/">Speed Converter</a></li></ul></div><div class="grp"><h2>Salary aur naukri</h2><ul><li><a href="/gratuity-calculator/">Gratuity Calculator</a></li><li><a href="/in-hand-salary-calculator/">CTC to In-hand Salary</a></li><li><a href="/income-tax-calculator/">Income Tax Calculator</a></li><li><a href="/epf-calculator/">EPF Calculator</a></li><li><a href="/hra-exemption-calculator/">HRA Exemption Calculator</a></li><li><a href="/leave-encashment-calculator/">Leave Encashment Calculator</a></li><li><a href="/bonus-calculator/">Bonus Calculator</a></li><li><a href="/salary-hike-calculator/">Salary Hike Calculator</a></li><li><a href="/salary-hike-percentage-calculator/">Salary Hike Percentage Calculator</a></li></ul></div></nav>
 <div class="main">
 <section class="panel"><h1>Length Converter</h1><p class="desc">Lambai ko km, meter, mile, feet, inch me badlein.</p><div id="calc"><p class="note">Calculator load ho raha hai. Agar ye dikhta rahe, to JavaScript chalu karein.</p></div></section>
 <article class="panel prose"><h2>Length Converter kya hai</h2><p>Ek unit ki lambai ko doosre unit me badalne ke liye ye converter use karein. Result me saare units ek saath dikhte hain.</p><h2>Ye kaise kaam karta hai</h2><p>Har unit ko pehle metre me badla jata hai, phir chune hue unit me. Jaise 1 mile = 1609.344 metre aur 1 foot = 0.3048 metre.</p><h2>Aksar pooche jaane wale sawal</h2><h3>1 mile kitne km hota hai?</h3><p>1 mile lagbhag 1.609 kilometre ke barabar hota hai.</p><h3>1 km kitne feet hota hai?</h3><p>1 kilometre lagbhag 3,280.84 feet ke barabar hota hai.</p></article>
@@ -435,6 +436,134 @@ footer nav{position:static;flex-direction:row;gap:14px;margin-bottom:8px}
        return {head:['Dono tithiyon ke beech',NF.format(days)+' din'],
          rows:[['Saal, mahine, din',yy+' saal, '+mm+' mahine, '+dd+' din'],['Hafte',NF.format(Math.floor(days/7))+' hafte, '+(days%7)+' din'],['Dono din milakar',NF.format(days+1)+' din'],['Kaam ke din (Som se Shukra)',days<=40000?NF.format(wd):'-']],
          note:'Kaam ke din ginte samay chhutti ya tyohaar nahi ginay gaye hain.'};
+     }}
+    ,{id:'gratuity',group:'Salary aur naukri',name:'Gratuity Calculator',desc:'Last salary aur naukri ke saalon se gratuity ki rakam nikalein.',
+     fields:[{k:'sal',label:'Aakhri mahine ki Basic + DA (₹)',unit:'₹',min:0,max:0,step:'any',def:50000,noslider:true},
+             {k:'yrs',label:'Naukri ke poore saal',min:0,max:0,step:1,def:10,noslider:true},
+             {k:'mon',label:'Upar se kitne mahine (0 se 11)',min:0,max:0,step:1,def:0,noslider:true},
+             {k:'typ',label:'Kis tarah ka employee',type:'select',def:'26',opts:[['26','Permanent, Gratuity Act lagoo (15/26)'],['30','Act lagoo nahi hota (15/30)'],['ft','Fixed-term contract (1 saal ke baad, pro-rata)']]}],
+     run:function(v){
+       var tm=v.yrs*12+v.mon, div=v.typ==='30'?30:26, yrs, amt, capd, note, lab;
+       if(v.sal<=0||tm<=0) return {error:'Salary aur naukri ka samay daalein.'};
+       if(v.mon<0||v.mon>11) return {error:'Mahine 0 se 11 ke beech daalein.'};
+       if(v.typ==='ft'){ yrs=tm/12; } else { yrs=v.yrs+(v.mon>6?1:0); }
+       amt=v.sal*15/div*yrs; capd=Math.min(amt,2000000);
+       note='Gratuity = salary x 15 / '+div+' x saal. Chhah mahine se zyada ko poora saal ginte hain.';
+       if(v.typ!=='ft'&&tm<60) note='Abhi 5 saal poore nahi hue, isliye aam taur par gratuity nahi milti (maut ya viklangta me alag niyam hai). '+note;
+       if(v.typ==='ft'&&tm<12) note='Fixed-term employee ko gratuity 1 saal poora hone par milti hai. '+note;
+       var rows=[['Gine gaye saal',fmtN(Math.round(yrs*100)/100)],['Formula',inr(v.sal)+' x 15 / '+div+' x '+fmtN(Math.round(yrs*100)/100)]];
+       if(amt>2000000){ rows.push(['Seema se pehle ki rakam',inr2(amt)]); rows.push(['Upar ki seema','₹20,00,000']); note+=' Rakam 20 lakh ki seema se upar thi, isliye seema tak dikhayi gayi hai.'; }
+       return {head:['Gratuity ki rakam',inr2(capd)],rows:rows,note:note};
+     }}
+    ,{id:'inhand',group:'Salary aur naukri',name:'CTC to In-hand Salary',desc:'Saal ke CTC se har mahine haath me kitni salary aayegi.',
+     fields:[{k:'ctc',label:'Saal ka CTC (₹)',unit:'₹',min:0,max:0,step:'any',def:600000,noslider:true},
+             {k:'bp',label:'Basic salary CTC ka kitna percent',unit:'%',min:0,max:0,step:'any',def:50,noslider:true},
+             {k:'pf',label:'PF kis par kata jata hai',type:'select',def:'cap',opts:[['cap','Basic par, par sirf ₹15,000 tak'],['full','Poori basic par'],['none','PF nahi katta']]},
+             {k:'pt',label:'Professional tax (mahine ka, ₹)',unit:'₹',min:0,max:0,step:'any',def:200,noslider:true},
+             {k:'tds',label:'Income tax / TDS (mahine ka, ₹)',unit:'₹',min:0,max:0,step:'any',def:0,noslider:true},
+             {k:'oth',label:'Aur kataut: insurance, gratuity wagairah (mahine ka, ₹)',unit:'₹',min:0,max:0,step:'any',def:0,noslider:true}],
+     run:function(v){
+       if(v.ctc<=0) return {error:'Saal ka CTC daalein.'};
+       var B=v.ctc*v.bp/100/12, w=v.pf==='cap'?Math.min(B,15000):(v.pf==='full'?B:0), pf=w*0.12;
+       var gross=v.ctc/12-pf, net=gross-pf-v.pt-v.tds-v.oth;
+       return {head:['Har mahine haath me (In-hand)',inr(net)],
+         rows:[['Mahine ka CTC',inr(v.ctc/12)],['Employer ka PF (CTC me shamil)',inr(pf)],['Mahine ki gross salary',inr(gross)],['Aapka PF',inr(pf)],['Professional tax',inr(v.pt)],['Income tax / TDS',inr(v.tds)],['Aur kataut',inr(v.oth)],['Saal ki in-hand salary',inr(net*12)]],
+         note:'Ye andaza hai. Aapki company ka salary structure alag ho sakta hai. Gratuity ya insurance CTC me shamil ho to wo "Aur kataut" me daalein. TDS jaanne ke liye Income Tax Calculator dekhein.'};
+     }}
+    ,{id:'itax',group:'Salary aur naukri',name:'Income Tax Calculator',desc:'Naya aur purana regime, dono me tax dekhein aur kam wala chunein.',
+     fields:[{k:'gross',label:'Saal ki salary (gross, ₹)',unit:'₹',min:0,max:0,step:'any',def:1200000,noslider:true},
+             {k:'ded',label:'Purane regime ke deductions: 80C, 80D, HRA, home loan (₹)',unit:'₹',min:0,max:0,step:'any',def:150000,noslider:true}],
+     run:function(v){
+       function slab(t,s){ var tax=0,lo=0,i; for(i=0;i<s.length;i++){ if(t>s[i][0]){ tax+=(s[i][0]-lo)*s[i][1]; lo=s[i][0]; } else { tax+=(t-lo)*s[i][1]; return tax; } } return tax; }
+       var NS=[[400000,0],[800000,.05],[1200000,.10],[1600000,.15],[2000000,.20],[2400000,.25],[1e15,.30]];
+       var OS=[[250000,0],[500000,.05],[1000000,.20],[1e15,.30]];
+       if(v.gross<=0) return {error:'Saal ki salary daalein.'};
+       var nt=Math.max(0,v.gross-75000), ot=Math.max(0,v.gross-50000-v.ded);
+       if(nt>5000000||ot>5000000) return {error:'Ye calculator 50 lakh tak ki income ke liye hai. Usse upar surcharge lagta hai.'};
+       var n=slab(nt,NS), o=slab(ot,OS);
+       if(nt<=1200000) n=0; else n=Math.min(n,nt-1200000);
+       if(ot<=500000) o=0;
+       n=n*1.04; o=o*1.04;
+       var best=n<=o?'Naya regime':'Purana regime', bt=Math.min(n,o);
+       return {head:[best+' kam tax wala hai',inr(bt)+' / saal'],
+         rows:[['Naya regime: taxable income',inr(nt)],['Naya regime: tax (cess sahit)',inr(n)],['Purana regime: taxable income',inr(ot)],['Purana regime: tax (cess sahit)',inr(o)],['Kam wale regime me har mahine ka tax',inr(bt/12)]],
+         note:'Saal 2026-27 ke slab, 60 saal se kam umar ke liye, 4% cess sahit. Naye regime me 75,000 aur purane me 50,000 ka standard deduction liya gaya hai. Ye andaza hai, ITR bharte samay apni asli details se check karein.'};
+     }}
+    ,{id:'epf',group:'Salary aur naukri',name:'EPF Calculator',desc:'Retirement tak PF me kitna paisa jama hoga, byaj sahit.',
+     fields:[{k:'basic',label:'Abhi ki Basic + DA (mahine ki, ₹)',unit:'₹',min:0,max:0,step:'any',def:25000,noslider:true},
+             {k:'pfw',label:'PF kis par kata jata hai',type:'select',def:'cap',opts:[['cap','Sirf ₹15,000 tak'],['full','Poori basic par']]},
+             {k:'bal',label:'Abhi PF me jama paisa (₹)',unit:'₹',min:0,max:0,step:'any',def:0,noslider:true},
+             {k:'age',label:'Abhi ki umar',min:0,max:0,step:1,def:28,noslider:true},
+             {k:'ret',label:'Retirement ki umar',min:0,max:0,step:1,def:58,noslider:true},
+             {k:'hike',label:'Salary har saal kitni badhegi',unit:'%',min:0,max:0,step:'any',def:5,noslider:true},
+             {k:'rate',label:'PF par byaj ki dar (saal ka)',unit:'%',min:0,max:0,step:'any',def:8.25,noslider:true}],
+     run:function(v){
+       var n=Math.round((v.ret-v.age)*12), bal=v.bal, acc=0, ec=0, rc=0, ti=0, m, y, w, e, eps, er, first=null;
+       if(v.basic<=0||n<=0) return {error:'Salary daalein aur retirement ki umar abhi ki umar se zyada rakhein.'};
+       for(m=1;m<=n;m++){
+         y=Math.floor((m-1)/12); w=v.basic*Math.pow(1+v.hike/100,y); if(v.pfw==='cap') w=Math.min(w,15000);
+         e=w*0.12; eps=Math.min(w,15000)*0.0833; er=w*0.12-eps;
+         if(first===null) first=e+er;
+         acc+=bal*v.rate/1200; bal+=e+er; ec+=e; rc+=er;
+         if(m%12===0||m===n){ bal+=acc; ti+=acc; acc=0; }
+       }
+       return {head:['Retirement par PF ki rakam',inr(bal)],
+         rows:[['Aapka kul yogdaan',inr(ec)],['Employer ka kul yogdaan (EPF hissa)',inr(rc)],['Kul byaj',inr(ti)],['Pehle mahine me PF me jama (aap + employer)',inr(first)]],
+         note:'Employer ke 12% me se 8.33% (zyada se zyada ₹1,250 mahina) pension (EPS) me jata hai, isliye EPF me kam jama hota hai. Byaj dar badal sakti hai. 2025-26 ke liye 8.25% hai.'};
+     }}
+    ,{id:'hra',group:'Salary aur naukri',name:'HRA Exemption Calculator',desc:'HRA me se kitna hissa tax se mukt hai, purane regime ke hisaab se.',
+     fields:[{k:'basic',label:'Basic + DA (mahine ki, ₹)',unit:'₹',min:0,max:0,step:'any',def:30000,noslider:true},
+             {k:'hra',label:'HRA jo mila (mahine ka, ₹)',unit:'₹',min:0,max:0,step:'any',def:12000,noslider:true},
+             {k:'rent',label:'Kiraya jo diya (mahine ka, ₹)',unit:'₹',min:0,max:0,step:'any',def:15000,noslider:true},
+             {k:'city',label:'Shehar',type:'select',def:'50',opts:[['50','Delhi, Mumbai, Kolkata, Chennai, Bengaluru, Hyderabad, Pune, Ahmedabad'],['40','Baaki koi bhi shehar']]}],
+     run:function(v){
+       if(v.basic<=0) return {error:'Basic + DA daalein.'};
+       var a=v.hra, b=Math.max(0,v.rent-v.basic*0.10), c=v.basic*(v.city==='50'?0.5:0.4), ex=Math.min(a,b,c);
+       return {head:['HRA me tax se mukt (mahine ka)',inr(ex)],
+         rows:[['Saal ka tax se mukt HRA',inr(ex*12)],['Tax lagne wala HRA (mahine ka)',inr(Math.max(0,v.hra-ex))],['1. Asli HRA mila',inr(a)],['2. Kiraya minus basic ka 10%',inr(b)],['3. Basic ka '+v.city+'%',inr(c)]],
+         note:'Teeno me se sabse kam rakam tax se mukt hoti hai. HRA ki chhoot sirf purane regime me milti hai. 1 April 2026 se 8 shehar 50% wali list me hain. Saal ka kiraya 1 lakh se zyada ho to landlord ka PAN dena padta hai.'};
+     }}
+    ,{id:'leave',group:'Salary aur naukri',name:'Leave Encashment Calculator',desc:'Bachi hui chhuttiyon ke badle kitna paisa milega aur kitna tax se mukt hai.',
+     fields:[{k:'sal',label:'Aakhri mahine ki Basic + DA (₹)',unit:'₹',min:0,max:0,step:'any',def:50000,noslider:true},
+             {k:'days',label:'Encash hone wali chhuttiyan (din)',min:0,max:0,step:'any',def:30,noslider:true}],
+     run:function(v){
+       if(v.sal<=0||v.days<=0) return {error:'Salary aur chhuttiyon ke din daalein.'};
+       var perday=v.sal/30, amt=perday*v.days, ex=Math.min(amt,v.sal*10,2500000);
+       return {head:['Leave encashment ki rakam',inr2(amt)],
+         rows:[['Ek din ki salary (salary / 30)',inr2(perday)],['Tax se mukt (zyada se zyada)',inr2(ex)],['Tax lagne wala hissa',inr2(amt-ex)]],
+         note:'Naukri chhodne ya retire hone par private employee ko ye chhoot mil sakti hai. Kam wali rakam li jati hai: asli rakam, 10 mahine ki salary ya ₹25 lakh. Chhuttiyan har poore saal ke 30 din se zyada ginti me nahi aati. Sarkari employee ko poori chhoot hai.'};
+     }}
+    ,{id:'bonus',group:'Salary aur naukri',name:'Bonus Calculator',desc:'Payment of Bonus Act ke hisaab se saal ka bonus nikalein.',
+     fields:[{k:'sal',label:'Mahine ki Basic + DA (₹)',unit:'₹',min:0,max:0,step:'any',def:15000,noslider:true},
+             {k:'mon',label:'Saal me kitne mahine kaam kiya',min:0,max:0,step:1,def:12,noslider:true},
+             {k:'pct',label:'Bonus percent (8.33 se 20 ke beech)',unit:'%',min:0,max:0,step:'any',def:8.33,noslider:true},
+             {k:'mw',label:'Aapke rajya ka minimum wage (mahine ka, ₹)',unit:'₹',min:0,max:0,step:'any',def:7000,noslider:true}],
+     run:function(v){
+       if(v.sal<=0||v.mon<=0) return {error:'Salary aur mahine daalein.'};
+       if(v.mon>12) return {error:'Mahine 12 se zyada nahi ho sakte.'};
+       if(v.pct<8.33||v.pct>20) return {error:'Bonus 8.33% se 20% ke beech hona chahiye.'};
+       var cap=Math.max(7000,v.mw), w=Math.min(v.sal,cap), b=w*v.mon*v.pct/100;
+       var note='Bonus ki ginti salary ya ₹7,000 aur minimum wage me se jo zyada ho, uski seema tak ki salary par hoti hai.';
+       if(v.sal>21000) note='Mahine ki salary ₹21,000 se zyada ho to Bonus Act aam taur par lagoo nahi hota. '+note;
+       return {head:['Saal ka bonus',inr2(b)],
+         rows:[['Ginti ki salary (mahine ki)',inr2(w)],['Mahine',String(v.mon)],['Bonus percent',pct(v.pct)]],
+         note:note};
+     }}
+    ,{id:'hike',group:'Salary aur naukri',name:'Salary Hike Calculator',desc:'Hike percent se nayi salary aur badhotari nikalein.',
+     fields:[{k:'cur',label:'Abhi ki salary (₹)',unit:'₹',min:0,max:0,step:'any',def:30000,noslider:true},
+             {k:'p',label:'Hike percent',unit:'%',min:0,max:0,step:'any',def:10,noslider:true}],
+     run:function(v){
+       if(v.cur<=0) return {error:'Abhi ki salary daalein.'};
+       var inc=v.cur*v.p/100, nw=v.cur+inc;
+       return {head:['Nayi salary',inr2(nw)],rows:[['Badhotari',inr2(inc)],['Purani salary',inr2(v.cur)],['Agar ye mahine ki salary hai, to saal ki nayi salary',inr(nw*12)]],note:'Salary kisi bhi period ki daal sakte hain, mahine ki ya saal ki.'};
+     }}
+    ,{id:'hikepct',group:'Salary aur naukri',name:'Salary Hike Percentage Calculator',desc:'Purani aur nayi salary se hike ya kami ka percent nikalein.',
+     fields:[{k:'old',label:'Purani salary (₹)',unit:'₹',min:0,max:0,step:'any',def:30000,noslider:true},
+             {k:'nw',label:'Nayi salary (₹)',unit:'₹',min:0,max:0,step:'any',def:36000,noslider:true}],
+     run:function(v){
+       if(v.old<=0) return {error:'Purani salary daalein.'};
+       var d=v.nw-v.old, up=d>=0;
+       return {head:[up?'Hike':'Salary me kami',pct(Math.abs(d)/v.old*100)],rows:[[up?'Badhotari':'Kami',inr2(Math.abs(d))],['Purani salary',inr2(v.old)],['Nayi salary',inr2(v.nw)]],note:'Dono salary ek hi period ki daalein, dono mahine ki ya dono saal ki.'};
      }}
   ];
 
