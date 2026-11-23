@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDF Translator – Free PDF &amp; Document Translator (Marathi, Hindi, English)</title>
+<meta name="description" content="Upload a PDF, scan, photo or Word file and get it translated into English, Hindi, Hinglish or any language. Free, no sign-up.">
+<style>
+  :root{
+    --bg:#f6f7fb; --card:#fff; --ink:#1d2433; --muted:#667085; --line:#e4e7ec;
+    --brand:#2f6bff; --brand-ink:#fff; --soft:#eef3ff; --ok:#12805c; --err:#b42318;
+    --r:14px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans","Noto Sans Devanagari",sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+  .wrap{max-width:760px;margin:0 auto;padding:20px 16px 60px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+  .logo{font-weight:800;font-size:1.35rem;letter-spacing:-.02em}
+  .logo span{color:var(--brand)}
+  .tag{color:var(--muted);margin:2px 0 18px;font-size:.98rem}
+  .icon-btn{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 12px;font-size:.9rem;cursor:pointer;color:var(--ink)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:14px}
+  .drop{border:2px dashed #c7d2fe;background:var(--soft);border-radius:var(--r);padding:26px 14px;text-align:center;cursor:pointer;transition:.15s}
+  .drop.over{border-color:var(--brand);background:#e3ebff}
+  .drop strong{display:block;font-size:1.08rem;margin-bottom:4px}
+  .drop small{color:var(--muted)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .btn{border:0;border-radius:12px;padding:12px 16px;font-size:1rem;font-weight:600;cursor:pointer;background:var(--soft);color:var(--brand)}
+  .btn.primary{background:var(--brand);color:var(--brand-ink);width:100%;padding:15px;font-size:1.08rem}
+  .btn:disabled{opacity:.55;cursor:not-allowed}
+  .btn.small{padding:9px 12px;font-size:.92rem}
+  .files{margin-top:12px;display:flex;flex-direction:column;gap:6px}
+  .file{display:flex;justify-content:space-between;align-items:center;background:#f9fafb;border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:.93rem}
+  .file button{border:0;background:none;color:var(--muted);font-size:1.1rem;cursor:pointer}
+  textarea{width:100%;min-height:110px;border:1px solid var(--line);border-radius:12px;padding:12px;font:inherit;resize:vertical}
+  label.lbl{display:block;font-weight:600;margin-bottom:6px}
+  select,input[type=password],input[type=text]{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;font:inherit;background:#fff}
+  .or{text-align:center;color:var(--muted);font-size:.85rem;margin:12px 0 8px}
+  .status{margin-top:12px;font-size:.95rem;color:var(--muted);min-height:1.2em}
+  .status.err{color:var(--err)}
+  .spinner{display:inline-block;width:15px;height:15px;border:2px solid #c7d2fe;border-top-color:var(--brand);border-radius:50%;animation:s 0.8s linear infinite;vertical-align:-2px;margin-right:6px}
+  @keyframes s{to{transform:rotate(360deg)}}
+  #result{display:none}
+  .result-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .result-head h2{margin:0;font-size:1.1rem}
+  .out{border-top:1px solid var(--line);padding-top:12px;overflow-wrap:anywhere}
+  .out h1,.out h2,.out h3{line-height:1.3;margin:14px 0 6px}
+  .out h1{font-size:1.25rem}.out h2{font-size:1.12rem}.out h3{font-size:1.02rem}
+  .out table{border-collapse:collapse;width:100%;margin:8px 0;font-size:.93rem;display:block;overflow-x:auto}
+  .out td,.out th{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+  .out th{background:#f9fafb}
+  .out ul,.out ol{padding-left:22px}
+  .summary{background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:12px 14px;margin-bottom:12px;display:none}
+  .summary h3{margin:0 0 6px;font-size:1rem}
+  .summary #summaryBody h1,.summary #summaryBody h2,.summary #summaryBody h3{font-size:1rem}
+  .note{font-size:.86rem;color:var(--muted)}
+  .modal{position:fixed;inset:0;background:rgba(16,24,40,.45);display:none;align-items:center;justify-content:center;padding:16px;z-index:10}
+  .modal.show{display:flex}
+  .modal .card{max-width:480px;width:100%;margin:0}
+  .modal h3{margin-top:0}
+  .modal ol{padding-left:20px;margin:8px 0 12px}
+  a{color:var(--brand)}
+  footer{text-align:center;color:var(--muted);font-size:.85rem;margin-top:24px}
+  .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#1d2433;color:#fff;padding:10px 16px;border-radius:10px;font-size:.92rem;opacity:0;transition:.2s;pointer-events:none}
+  .toast.show{opacity:1}
+  @media print{
+    body{background:#fff}
+    header,.tag,#inputCard,.result-head .actions,footer,.modal,.toast,#summaryBtnRow{display:none!important}
+    .card{border:0;padding:0}
+    #result{display:block!important}
+  }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js" defer></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">PDF <span>Translator</span></div>
+    <span class="icon-btn" id="quota" style="cursor:default">2 free a day</span>
+  </header>
+  <p class="tag">Upload a PDF, scan, photo or Word file. Pick a language. Done.</p>
+
+  <div class="card" id="inputCard">
+    <div class="drop" id="drop" tabindex="0" role="button" aria-label="Choose a file">
+      <strong>📄 Drop a file here or tap to upload</strong>
+      <small>PDF (scanned too), photo (JPG/PNG), Word (.docx), .txt</small>
+    </div>
+    <input type="file" id="fileInput" multiple accept=".pdf,.docx,.txt,image/*" hidden>
+    <input type="file" id="camInput" accept="image/*" capture="environment" hidden>
+    <div class="row">
+      <button class="btn small" id="camBtn" type="button">📷 Take a photo</button>
+    </div>
+    <div class="files" id="fileList"></div>
+
+    <div class="or">— or paste text —</div>
+    <textarea id="textIn" placeholder="Paste your text here..."></textarea>
+
+    <div style="margin-top:14px">
+      <label class="lbl" for="lang">Translate into</label>
+      <select id="lang"></select>
+    </div>
+
+    <div style="margin-top:16px">
+      <button class="btn primary" id="goBtn" type="button">Translate</button>
+    </div>
+    <div class="status" id="status" aria-live="polite"></div>
+  </div>
+
+  <div class="card" id="result">
+    <div class="result-head">
+      <h2 id="resultTitle">Translation</h2>
+      <div class="actions row" style="margin-top:0">
+        <button class="btn small" id="copyBtn" type="button">📋 Copy</button>
+        <button class="btn small" id="wordBtn" type="button">📝 Word</button>
+        <button class="btn small" id="pdfBtn" type="button">📄 PDF</button>
+        <button class="btn small" id="waBtn" type="button">💬 WhatsApp</button>
+      </div>
+    </div>
+    <div class="summary" id="summary"><h3>Quick summary</h3><div id="summaryBody"></div></div>
+    <div class="row" id="summaryBtnRow" style="margin:0 0 12px">
+      <button class="btn small" id="sumBtn" type="button">✨ Explain in short</button>
+    </div>
+    <div class="out" id="out"></div>
+    <p class="note" style="margin-top:14px">This is an AI translation. Please double-check names, dates and amounts against the original.</p>
+  </div>
+
+  <footer>PDF Translator · Free PDF &amp; document translation</footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+  var WORKER_URL = "https://aasaan-anuvaad.luvknight8.workers.dev";
+  var MAX_BYTES = 15 * 1024 * 1024;
+  var LANGS = ["English","Hindi","Hinglish","Marathi","Gujarati","Punjabi","Bengali","Tamil","Telugu","Kannada","Malayalam","Odia","Urdu","Nepali","Spanish","French","German","Arabic","Russian","Chinese","Japanese","Korean"];
+
+  var $ = function(id){ return document.getElementById(id); };
+  var files = [];
+  var lastText = "";
+
+  function store(k, v){ try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k, v); }catch(e){ return null; } }
+
+  // ---------- language select ----------
+  var sel = $("lang");
+  LANGS.forEach(function(l){ var o=document.createElement("option"); o.value=l; o.textContent = l==="Hinglish" ? "Hinglish (Hindi in English letters)" : l; sel.appendChild(o); });
+  sel.value = store("aa_lang") || "English";
+  sel.addEventListener("change", function(){ store("aa_lang", sel.value); });
+
+  // ---------- toast ----------
+  var tt;
+  function toast(msg){ var t=$("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(tt); tt=setTimeout(function(){t.classList.remove("show");},2200); }
+
+  // ---------- files ----------
+  function kindOf(f){
+    var n = f.name.toLowerCase();
+    if(f.type==="application/pdf" || n.endsWith(".pdf")) return "pdf";
+    if(f.type.indexOf("image/")===0) return "image";
+    if(n.endsWith(".docx")) return "docx";
+    if(f.type==="text/plain" || n.endsWith(".txt")) return "txt";
+    return null;
+  }
+  function addFiles(list){
+    Array.prototype.forEach.call(list, function(f){
+      var k = kindOf(f);
+      if(!k){ toast(f.name + ": this file type is not supported yet"); return; }
+      files.push({file:f, kind:k});
+    });
+    renderFiles();
+  }
+  function renderFiles(){
+    var box = $("fileList"); box.innerHTML = "";
+    files.forEach(function(it, i){
+      var d=document.createElement("div"); d.className="file";
+      var s=document.createElement("span"); s.textContent = it.file.name + " · " + (it.file.size/1024/1024).toFixed(2) + " MB";
+      var b=document.createElement("button"); b.type="button"; b.textContent="✕"; b.setAttribute("aria-label","Remove");
+      b.onclick=function(){ files.splice(i,1); renderFiles(); };
+      d.appendChild(s); d.appendChild(b); box.appendChild(d);
+    });
+  }
+  var drop = $("drop");
+  drop.onclick = function(){ $("fileInput").click(); };
+  drop.onkeydown = function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); $("fileInput").click(); } };
+  $("fileInput").onchange = function(e){ addFiles(e.target.files); e.target.value=""; };
+  $("camBtn").onclick = function(){ $("camInput").click(); };
+  $("camInput").onchange = function(e){ addFiles(e.target.files); e.target.value=""; };
+  ["dragenter","dragover"].forEach(function(ev){ drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.add("over");}); });
+  ["dragleave","drop"].forEach(function(ev){ drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.remove("over");}); });
+  drop.addEventListener("drop", function(e){ addFiles(e.dataTransfer.files); });
+
+  function toBase64(file){
+    return new Promise(function(res, rej){
+      var r = new FileReader();
+      r.onload = function(){ res(String(r.result).split(",")[1]); };
+      r.onerror = function(){ rej(new Error("Could not read the file")); };
+      r.readAsDataURL(file);
+    });
+  }
+  function readText(file){
+    return new Promise(function(res, rej){ var r=new FileReader(); r.onload=function(){res(String(r.result));}; r.onerror=function(){rej(new Error("Could not read the file"));}; r.readAsText(file); });
+  }
+  function readDocx(file){
+    return file.arrayBuffer().then(function(buf){
+      if(!window.mammoth) throw new Error("Word reader did not load. Please refresh the page.");
+      return window.mammoth.extractRawText({arrayBuffer:buf});
+    }).then(function(r){ return r.value; });
+  }
+
+  // ---------- server (Cloudflare Worker) ----------
+  function callServer(payload){
+    return fetch(WORKER_URL + "/translate", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(payload)})
+      .then(function(r){ return r.json().catch(function(){ return {}; }).then(function(j){
+        if(typeof j.remaining === "number" && payload.mode !== "summary") showQuota(j.remaining);
+        if(!r.ok){ var e = new Error(j.error || ("Error " + r.status)); e.status = r.status; throw e; }
+        return j.text || "";
+      }); });
+  }
+  function friendly(e){
+    var m = String(e && e.message || e);
+    if(/Failed to fetch|NetworkError|Load failed/i.test(m)) return navigator.onLine === false ? "You are offline. Please check your internet connection." : "Could not reach the translation server. Please try again in a minute.";
+    return m;
+  }
+  function showQuota(n){ $("quota").textContent = n + " free left today"; }
+  fetch(WORKER_URL + "/quota").then(function(r){ return r.json(); }).then(function(j){ if(typeof j.remaining==="number") showQuota(j.remaining); }).catch(function(){});
+
+  // ---------- markdown (tiny, safe) ----------
+  function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function inline(s){ return esc(s).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/(^|[^*])\*([^*\n]+)\*/g,"$1<em>$2</em>"); }
+  function md(src){
+    var lines = src.replace(/\r/g,"").replace(/^```[a-z]*\n?|```$/gim,"").split("\n");
+    var html = [], i = 0, para = [];
+    function flush(){ if(para.length){ html.push("<p>"+para.map(inline).join("<br>")+"</p>"); para=[]; } }
+    while(i < lines.length){
+      var ln = lines[i], t = ln.trim();
+      if(!t){ flush(); i++; continue; }
+      var h = t.match(/^(#{1,6})\s+(.*)$/);
+      if(h){ flush(); var lv=Math.min(h[1].length,3); html.push("<h"+lv+">"+inline(h[2])+"</h"+lv+">"); i++; continue; }
+      if(/^\|.*\|$/.test(t)){
+        flush(); var rows=[];
+        while(i<lines.length && /^\|.*\|$/.test(lines[i].trim())){ rows.push(lines[i].trim()); i++; }
+        var out="<table>", first=true;
+        rows.forEach(function(r){
+          if(/^\|[\s:\-|]+\|$/.test(r)) return;
+          var cells=r.slice(1,-1).split("|"), tag=first?"th":"td";
+          out+="<tr>"+cells.map(function(c){return "<"+tag+">"+inline(c.trim())+"</"+tag+">";}).join("")+"</tr>"; first=false;
+        });
+        html.push(out+"</table>"); continue;
+      }
+      if(/^([-*•]|\d+[.)])\s+/.test(t)){
+        flush(); var ordered=/^\d/.test(t), items=[];
+        while(i<lines.length && /^([-*•]|\d+[.)])\s+/.test(lines[i].trim())){ items.push(lines[i].trim().replace(/^([-*•]|\d+[.)])\s+/,"")); i++; }
+        var tg=ordered?"ol":"ul"; html.push("<"+tg+">"+items.map(function(x){return "<li>"+inline(x)+"</li>";}).join("")+"</"+tg+">"); continue;
+      }
+      para.push(t); i++;
+    }
+    flush();
+    return html.join("\n");
+  }
+  function plain(src){ return src.replace(/\*\*(.+?)\*\*/g,"$1").replace(/^#{1,6}\s+/gm,""); }
+
+  // ---------- main ----------
+  function setStatus(msg, busy, err){
+    var s=$("status"); s.className="status"+(err?" err":"");
+    s.innerHTML = (busy?'<span class="spinner"></span>':"") + esc(msg);
+  }
+  $("goBtn").onclick = function(){
+    var text = $("textIn").value.trim();
+    if(!files.length && !text){ setStatus("Please upload a file or paste some text first", false, true); return; }
+    var total = files.reduce(function(a,f){return a+f.file.size;},0);
+    if(total > MAX_BYTES){ setStatus("Files are too large (over 15 MB). Please use a smaller file or fewer pages.", false, true); return; }
+
+    var lang = sel.value;
+    $("goBtn").disabled = true;
+    setStatus("Reading your document...", true);
+    var payload = {mode:"translate", lang:lang, files:[], texts:[]};
+
+    Promise.all(files.map(function(it){
+      if(it.kind==="pdf") return toBase64(it.file).then(function(d){ payload.files.push({mime:"application/pdf", data:d}); });
+      if(it.kind==="image") return toBase64(it.file).then(function(d){ payload.files.push({mime:it.file.type||"image/jpeg", data:d}); });
+      if(it.kind==="docx") return readDocx(it.file).then(function(t){ payload.texts.push(t); });
+      return readText(it.file).then(function(t){ payload.texts.push(t); });
+    })).then(function(){
+      if(text) payload.texts.push(text);
+      setStatus("Translating into " + lang + "... (this can take 1–2 minutes)", true);
+      return callServer(payload);
+    }).then(function(out){
+      lastText = out.trim();
+      $("out").innerHTML = md(lastText);
+      $("resultTitle").textContent = lang + " translation";
+      $("summary").style.display = "none";
+      $("summaryBtnRow").style.display = "";
+      $("result").style.display = "block";
+      setStatus("Done ✔");
+      $("result").scrollIntoView({behavior:"smooth", block:"start"});
+    }).catch(function(e){
+      setStatus(friendly(e), false, true);
+    }).then(function(){ $("goBtn").disabled = false; });
+  };
+
+  $("sumBtn").onclick = function(){
+    var b = $("sumBtn"); b.disabled = true; b.innerHTML = '<span class="spinner"></span>Summarising...';
+    callServer({mode:"summary", lang:sel.value, text:lastText}).then(function(s){
+      $("summaryBody").innerHTML = md(s.trim());
+      $("summary").style.display = "block";
+      $("summaryBtnRow").style.display = "none";
+    }).catch(function(e){ toast(friendly(e)); })
+      .then(function(){ b.disabled=false; b.textContent="✨ Explain in short"; });
+  };
+  $("copyBtn").onclick = function(){
+    var t = plain(lastText);
+    (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject())
+      .then(function(){ toast("Copied ✔"); })
+      .catch(function(){ var ta=document.createElement("textarea"); ta.value=t; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy"); toast("Copied ✔");}catch(e){toast("Could not copy");} ta.remove(); });
+  };
+  $("wordBtn").onclick = function(){
+    var doc = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>Translation</title>' +
+      '<style>body{font-family:Calibri,"Nirmala UI",sans-serif;font-size:12pt}table{border-collapse:collapse}td,th{border:1px solid #999;padding:4px}</style></head><body>' +
+      $("out").innerHTML + "</body></html>";
+    var blob = new Blob(["\ufeff", doc], {type:"application/msword"});
+    var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "translation.doc";
+    document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  };
+  $("pdfBtn").onclick = function(){ toast("Choose 'Save as PDF' in the print window"); setTimeout(function(){ window.print(); }, 400); };
+  $("waBtn").onclick = function(){
+    var t = plain(lastText); if(t.length > 3500) t = t.slice(0, 3500) + "...";
+    window.open("https://wa.me/?text=" + encodeURIComponent(t), "_blank", "noopener");
+  };
+})();
+</script>
+</body>
+</html>
