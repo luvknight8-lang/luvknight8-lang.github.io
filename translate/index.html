@@ -71,6 +71,7 @@
   }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
 </head>
 <body>
 <div class="wrap">
@@ -208,6 +209,32 @@
     }).then(function(r){ return r.value; });
   }
 
+  // ---------- PDF -> page images (works even for damaged scans) ----------
+  var MAX_PAGES = 10;
+  function pdfToImages(file){
+    return file.arrayBuffer().then(function(buf){
+      var lib = window.pdfjsLib;
+      if(!lib) throw new Error("no pdfjs");
+      lib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+      return lib.getDocument({data:buf}).promise;
+    }).then(function(pdf){
+      var n = Math.min(pdf.numPages, MAX_PAGES), out = [], chain = Promise.resolve();
+      for(var i=1;i<=n;i++){ (function(i){ chain = chain.then(function(){
+        return pdf.getPage(i).then(function(page){
+          var v = page.getViewport({scale:1});
+          var scale = Math.min(2, 1400 / v.width);
+          var vp = page.getViewport({scale:scale});
+          var c = document.createElement("canvas"); c.width = Math.round(vp.width); c.height = Math.round(vp.height);
+          var ctx = c.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0,0,c.width,c.height);
+          return page.render({canvasContext:ctx, viewport:vp}).promise.then(function(){
+            out.push(c.toDataURL("image/jpeg", 0.82).split(",")[1]);
+          });
+        });
+      }); })(i); }
+      return chain.then(function(){ return {images:out, total:pdf.numPages}; });
+    });
+  }
+
   // ---------- server (Cloudflare Worker) ----------
   function callServer(payload){
     return fetch(WORKER_URL + "/translate", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(payload)})
@@ -277,13 +304,18 @@
     var payload = {mode:"translate", lang:lang, files:[], texts:[]};
 
     Promise.all(files.map(function(it){
-      if(it.kind==="pdf") return toBase64(it.file).then(function(d){ payload.files.push({mime:"application/pdf", data:d}); });
+      if(it.kind==="pdf") return pdfToImages(it.file).then(function(r){
+          r.images.forEach(function(d){ payload.files.push({mime:"image/jpeg", data:d}); });
+          if(r.total > MAX_PAGES) toast("Only the first " + MAX_PAGES + " pages will be translated");
+        }).catch(function(){ return toBase64(it.file).then(function(d){ payload.files.push({mime:"application/pdf", data:d}); }); });
       if(it.kind==="image") return toBase64(it.file).then(function(d){ payload.files.push({mime:it.file.type||"image/jpeg", data:d}); });
       if(it.kind==="docx") return readDocx(it.file).then(function(t){ payload.texts.push(t); });
       return readText(it.file).then(function(t){ payload.texts.push(t); });
     })).then(function(){
       if(text) payload.texts.push(text);
-      setStatus("Translating into " + lang + "... (this can take 1–2 minutes)", true);
+      var bodySize = JSON.stringify(payload).length;
+      if(bodySize > 19*1024*1024){ throw new Error("This document is too large. Please try fewer pages."); }
+      setStatus("Translating into " + lang + "... (usually 20–60 seconds)", true);
       return callServer(payload);
     }).then(function(out){
       lastText = out.trim();
